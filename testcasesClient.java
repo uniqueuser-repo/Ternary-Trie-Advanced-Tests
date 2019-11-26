@@ -1,5 +1,6 @@
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -24,6 +25,7 @@ public class testcasesClient {
             Socket clientSocket = new Socket(InetAddress.getLocalHost(), 31002);
             OutputStreamWriter osw = new OutputStreamWriter(clientSocket.getOutputStream());
             BufferedWriter bfw = new BufferedWriter(osw);
+            ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
 
             System.out.println("Please insert a list of words. Type \"exit\" to stop writing words.");
 
@@ -36,11 +38,22 @@ public class testcasesClient {
                     break;
                 }
                 bfw.write(nextLine);
+                bfw.newLine();
                 bfw.flush();
+                System.out.println("Sent word!");
             }
+
+            Object readObject = ois.readObject();
+            WordProcessor solutionWP = (WordProcessor)readObject;
+            System.out.println();
+
 
         } catch (IOException ioe) {
             System.out.println("IOException when creating client socket in testcasesClient!");
+        } catch (ClassCastException cce) {
+            System.out.println("For some reason, the returned Object is not a WordProcessor Object!");
+        } catch (ClassNotFoundException cnfe) {
+            System.out.println("For some reason, the class was not found when reading the Object!");
         }
     }
 

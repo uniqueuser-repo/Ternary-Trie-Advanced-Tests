@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLOutput;
 import java.util.HashMap;
 
 /**
@@ -26,6 +27,7 @@ public class testcasesServer {
     public static HashMap<Socket, String> clientIDs = new HashMap<>();
     public static void main(String[] args) {
         try {
+            System.out.println("Server running on port 31002....");
             ServerSocket serverSocket = new ServerSocket(31002);
 
             while (true) {
@@ -36,7 +38,7 @@ public class testcasesServer {
                 clientHandler.start();
             }
         } catch (IOException ioe) {
-            System.out.println("IOException!");
+            System.out.println("IOException 1!");
             ioe.printStackTrace();
         }
     }
@@ -52,21 +54,35 @@ class ClientHandler extends Thread {
     public void run() {
         WordProcessor localWP = new WordProcessor();
         try {
+            //System.out.println("In thread");
             InputStreamReader isr = new InputStreamReader(client.getInputStream());
             ObjectOutputStream oos = new ObjectOutputStream(client.getOutputStream());
             BufferedReader bfr = new BufferedReader(isr);
             while (true) {
+                //System.out.println("Before read!");
                 String readLine = bfr.readLine();
-                if (readLine == null) {
+               // System.out.println("Read!");
+                if (readLine == null || readLine.equals("exit")) {
                     oos.writeObject(localWP);
+                    testcasesServer.clientIDs.remove(client);
                     break;
                 }
                 System.out.println("Client ID: " + testcasesServer.clientIDs.get(client) + " is adding word " + readLine);
                 localWP.addWord(readLine);
 
             }
+
+            System.out.println("Client ID: " + testcasesServer.clientIDs.get(client) + " is done adding words. Sending back WordProcessor...");
+            oos.writeObject(localWP);
         } catch (IOException ioe) {
-            System.out.println("IOException when creating streams!");
+            System.out.println("IOException 2!");
+            System.out.println("Client ID: " + testcasesServer.clientIDs.get(client));
+            testcasesServer.clientIDs.remove(client);
+        } catch (Exception e) {
+            System.out.println("Unexpected Exception!");
+            System.out.println("Client ID: " + testcasesServer.clientIDs.get(client));
+            testcasesServer.clientIDs.remove(client);
+            e.printStackTrace();
         }
     }
 }
