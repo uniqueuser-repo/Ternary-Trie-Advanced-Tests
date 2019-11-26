@@ -12,3 +12,5 @@ don't have to encounter the same struggle that I did. These are one of such test
              instance to the client, so that students know exactly how an arbitrary solution trie should look. In particular,
              if they are failing a test case, it would allow them to analyze a specific instance of the solution trie Object by
              stepping through with a debugger.
+             
+End of 11/26/2019 - Finished branching out the project. Published the client on the online help board. Students will now have access to a solution trie via running testcasesAdvanced in conjunction with having testcasesClient.java.
