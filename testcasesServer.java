@@ -61,18 +61,17 @@ class ClientHandler extends Thread {
             while (true) {
                 String readLine = bfr.readLine();
                 if (readLine == null || readLine.equals("exit")) {
-                    oos.writeObject(localWP);
-                    testcasesServer.clientIDs.remove(client);
+                    System.out.println("Client ID: " + testcasesServer.clientIDs.get(client) + " is done adding words. Sending back WordProcessor...");
+                    Object sendingObject = (Object)localWP;
+                    oos.writeObject(sendingObject);
+                    System.out.println("Closing socket.");
+                    client.close();
                     break;
                 }
                 System.out.println("Client ID: " + testcasesServer.clientIDs.get(client) + " is adding word " + readLine);
                 localWP.addWord(readLine);
 
             }
-
-            System.out.println("Client ID: " + testcasesServer.clientIDs.get(client) + " is done adding words. Sending back WordProcessor...");
-            Object sendingObject = (Object)localWP;
-            oos.writeObject(sendingObject);
         } catch (IOException ioe) {
             System.out.println("IOException 2!");
             System.out.println("Client ID: " + testcasesServer.clientIDs.get(client));
