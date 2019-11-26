@@ -1,7 +1,7 @@
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.SQLOutput;
+import java.net.InetAddress;
 import java.util.HashMap;
 
 /**
@@ -27,7 +27,8 @@ public class testcasesServer {
     public static HashMap<Socket, String> clientIDs = new HashMap<>();
     public static void main(String[] args) {
         try {
-            System.out.println("Server running on port 31002....");
+	    INetAddress inetAddress = InetAddress.getLocalHost();
+            System.out.println("Server listening on IP " + inetAddress.getHostAddress().toString + "running on port 31002....");
             ServerSocket serverSocket = new ServerSocket(31002);
 
             while (true) {
