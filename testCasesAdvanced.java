@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test cases for Fall'19 CS251 Project 5.
@@ -41,7 +42,19 @@ public class testCasesAdvanced {
     }
 
     public WordProcessor.Node[] tree_traverse_compare(WordProcessor.Node localWP, WordProcessor.Node solutionWP) {
-        if (localWP != solutionWP) {
+        if (localWP == null && solutionWP == null) {
+            return null;
+        }
+
+        if (localWP == null && solutionWP != null) {
+            return new WordProcessor.Node[] {localWP, solutionWP};
+        }
+
+        if (localWP != null && solutionWP == null) {
+            return new WordProcessor.Node[] {localWP, solutionWP};
+        }
+
+        if (localWP.c != solutionWP.c) {
             return new WordProcessor.Node[] {localWP, solutionWP};
         }
 
@@ -138,8 +151,7 @@ public class testCasesAdvanced {
         // It will always return the correct solution trie in the variable solutionWP.
         // All you need to do is change the list of wordsToAdd.
 
-        String[] wordsToAdd = new String[] {"ABCDE", "ABC", "JAY", "JEFF", "JOHN", "JOE", "Jeremy", "Jeremiah", "Mongo", "Mango", "mousepad", "monitor", "tab",
-                "Word", "box", "Navigation", "Emphasis", "Intense"};
+        String[] wordsToAdd = new String[] {"bubbletea", "baby"};
 
         wordProcessor.addAllWords(wordsToAdd);
         try {
@@ -154,8 +166,15 @@ public class testCasesAdvanced {
             // firstFail[1] is the solution node, the correct node.
             // If failing this, I recommend setting a break point and walking through the solution trie.
 
+
             if (firstFail != null) {
-                assertEquals("Ensure that you are correctly adding nodes!", firstFail[0].c, firstFail[1].c);
+                if (firstFail[0] != null && firstFail[1] != null) {
+                    assertEquals("Ensure that you are correctly adding nodes!", firstFail[0].c, firstFail[1].c);
+                } else if (firstFail[0] != null && firstFail[1] == null) {
+                    fail("Ensure that you are correctly adding nodes! Your tree was non-null in a position that the solution tree had null!");
+                } else {
+                    fail("Ensure that you are correctly adding nodes! Your tree was null in a position that the solution tree had non-null!");
+                }
             }
 
 

@@ -9,7 +9,7 @@ import java.util.Scanner;
  *
  * The client of the test cases for CS251 Project 5. Allows students to create their own tree and step through
  * the instance with a debugger. If you want to simply insert the words and then view the tree, run this file.
- * Set a breakpoint on line 56 and analyze the tree from there.
+ * Set a breakpoint on line 57 and analyze the tree from there.
  *
  * @author Andrew Orlowski, orlowska@purdue.edu
  * @version 11/26/2019
@@ -28,7 +28,7 @@ public class testcasesClient {
             BufferedWriter bfw = new BufferedWriter(osw);
             ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
 
-            System.out.println("Please insert a list of words. Type \"exit\" to stop writing words.");
+            System.out.println("Please insert a list of words. Type \"exit\" to stop writing words. After each word, press the enter key.");
 
             while (true) {
                 String nextLine = scan.nextLine();
@@ -54,7 +54,7 @@ public class testcasesClient {
             // When you exit, you will have a screen at the bottom that shows all of the variables.
             // From there, you can open the "localWP" and traverse the tree.
 
-            System.out.println("Done! Please see line 51 of the code for details.");
+            System.out.println("Done! Please see line 52 of the code for details.");
 
 
         } catch (IOException ioe) {
@@ -81,9 +81,9 @@ public class testcasesClient {
 
 
             for (int i = 0; i < wordsToAdd.length; i++) {
-                bfw.write(wordsToAdd[i]);
-                bfw.newLine();
-                bfw.flush();
+                        bfw.write(wordsToAdd[i]);
+                        bfw.newLine();
+                        bfw.flush();
             }
 
             bfw.write("exit");
