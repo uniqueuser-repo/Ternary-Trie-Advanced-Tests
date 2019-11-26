@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 
 /**
  *  The server for the test cases of CS251 Fall'19 Project 5. It accepts input from clients (students)
@@ -22,12 +23,15 @@ import java.net.Socket;
  *
  */
 public class testcasesServer {
+    public static HashMap<Socket, String> clientIDs = new HashMap<>();
     public static void main(String[] args) {
         try {
             ServerSocket serverSocket = new ServerSocket(31002);
 
             while (true) {
                 Socket client = serverSocket.accept();
+                System.out.println("A client has connected! Client ID: " + client.getRemoteSocketAddress().toString());
+                clientIDs.put(client, client.getRemoteSocketAddress().toString());
                 ClientHandler clientHandler = new ClientHandler(client);
                 clientHandler.start();
             }
@@ -57,6 +61,7 @@ class ClientHandler extends Thread {
                     oos.writeObject(localWP);
                     break;
                 }
+                System.out.println("Client ID: " + testcasesServer.clientIDs.get(client) + " is adding word " + readLine);
                 localWP.addWord(readLine);
 
             }
