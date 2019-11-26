@@ -22,7 +22,7 @@ public class testcasesClient {
         System.out.println("Welcome to the client. This will allow you to\n" +
                             "manually input words and then will send you the finished trie.");
         try {
-            Socket clientSocket = new Socket(InetAddress.getLocalHost(), 31002);
+            Socket clientSocket = new Socket("167.172.238.22", 31002);
             OutputStreamWriter osw = new OutputStreamWriter(clientSocket.getOutputStream());
             BufferedWriter bfw = new BufferedWriter(osw);
             ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
@@ -52,7 +52,7 @@ public class testcasesClient {
             // When you exit, you will have a screen at the bottom that shows all of the variables.
             // From there, you can open the "localWP" and traverse the tree.
 
-            //System.out.println();
+            System.out.println("Done! Please see line 50 of the code for details.");
 
 
         } catch (IOException ioe) {
