@@ -5,3 +5,10 @@ Some projects for the course do not have public test cases that get released. Th
 exactly where and why their code is failing. Since I tend to finish projects on the same day that they get released rather
 than waiting until the end, I usually create and post public test cases on the course's online help board so that other students
 don't have to encounter the same struggle that I did. These are one of such test cases.
+
+11/25/2019 - Local test cases complete. Nothing special. Typical unit testing.
+
+11/26/2019 - Started branching out the project. Creating client/server pair. At the end, the server should pass a solution
+             instance to the client, so that students know exactly how an arbitrary solution trie should look. In particular,
+             if they are failing a test case, it would allow them to analyze a specific instance of the solution trie Object by
+             stepping through with a debugger.
