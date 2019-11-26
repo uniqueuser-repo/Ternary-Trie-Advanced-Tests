@@ -1,5 +1,5 @@
 # Ternary-Trie-Test-Cases
-Personal Test cases for Purdue's CS251 (Data Structures) project 5, Ternary Tries.
+Personal Test cases for Purdue's Fall'19 CS251 (Data Structures) project 5, Ternary Tries.
 
 Some projects for the course do not have public test cases that get released. This leaves many students struggling to understand
 exactly where and why their code is failing. Since I tend to finish projects on the same day that they get released rather
