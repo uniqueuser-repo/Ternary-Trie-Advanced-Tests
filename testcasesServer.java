@@ -54,14 +54,11 @@ class ClientHandler extends Thread {
     public void run() {
         WordProcessor localWP = new WordProcessor();
         try {
-            //System.out.println("In thread");
             InputStreamReader isr = new InputStreamReader(client.getInputStream());
             ObjectOutputStream oos = new ObjectOutputStream(client.getOutputStream());
             BufferedReader bfr = new BufferedReader(isr);
             while (true) {
-                //System.out.println("Before read!");
                 String readLine = bfr.readLine();
-               // System.out.println("Read!");
                 if (readLine == null || readLine.equals("exit")) {
                     oos.writeObject(localWP);
                     testcasesServer.clientIDs.remove(client);
@@ -73,11 +70,13 @@ class ClientHandler extends Thread {
             }
 
             System.out.println("Client ID: " + testcasesServer.clientIDs.get(client) + " is done adding words. Sending back WordProcessor...");
-            oos.writeObject(localWP);
+            Object sendingObject = (Object)localWP;
+            oos.writeObject(sendingObject);
         } catch (IOException ioe) {
             System.out.println("IOException 2!");
             System.out.println("Client ID: " + testcasesServer.clientIDs.get(client));
             testcasesServer.clientIDs.remove(client);
+            ioe.printStackTrace();
         } catch (Exception e) {
             System.out.println("Unexpected Exception!");
             System.out.println("Client ID: " + testcasesServer.clientIDs.get(client));
