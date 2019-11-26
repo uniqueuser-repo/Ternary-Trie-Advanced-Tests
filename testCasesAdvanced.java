@@ -137,6 +137,7 @@ public class testCasesAdvanced {
         // You can modify this test case yourself if you are on the client-server pairing.
         // It will always return the correct solution trie in the variable solutionWP.
         // All you need to do is change the list of wordsToAdd.
+        
         String[] wordsToAdd = new String[] {"ABCDE", "ABC", "JAY", "JEFF", "JOHN", "JOE", "Jeremy", "Jeremiah", "Mongo", "Mango", "mousepad", "monitor", "tab",
                 "Word", "box", "Navigation", "Emphasis", "Intense"};
 
