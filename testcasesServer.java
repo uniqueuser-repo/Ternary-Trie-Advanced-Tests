@@ -53,11 +53,11 @@ class ClientHandler extends Thread {
             BufferedReader bfr = new BufferedReader(isr);
             while (true) {
                 String readLine = bfr.readLine();
-                if (readLine == "exit") {
-                    //TODO: Send completed localWP object to client
+                if (readLine == null) {
+                    oos.writeObject(localWP);
                     break;
                 }
-                //TODO: Read in single String from user, add to localWP
+                localWP.addWord(readLine);
 
             }
         } catch (IOException ioe) {
