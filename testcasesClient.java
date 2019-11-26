@@ -2,14 +2,14 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.OutputStreamWriter;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Scanner;
 
 /**
  *
  * The client of the test cases for CS251 Project 5. Allows students to create their own tree and step through
- * the instance with a debugger.
+ * the instance with a debugger. If you want to simply insert the words and then view the tree, run this file.
+ * Set a breakpoint on line 56 and analyze the tree from there.
  *
  * @author Andrew Orlowski, orlowska@purdue.edu
  * @version 11/26/2019
@@ -47,12 +47,12 @@ public class testcasesClient {
             Object readObject = ois.readObject();
             WordProcessor solutionWP = (WordProcessor)readObject;
 
-            // If you want to access and analyze the solutionWP, set a break point on line 55 below.
+            // If you want to access and analyze the solutionWP, set a break point on line 56 below.
             // From there, run the client in debug mode (bug in the top right) and work as normal.
             // When you exit, you will have a screen at the bottom that shows all of the variables.
             // From there, you can open the "localWP" and traverse the tree.
 
-            System.out.println("Done! Please see line 50 of the code for details.");
+            System.out.println("Done! Please see line 51 of the code for details.");
 
 
         } catch (IOException ioe) {

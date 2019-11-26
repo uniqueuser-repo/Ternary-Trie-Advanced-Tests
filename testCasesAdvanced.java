@@ -11,15 +11,15 @@ import static org.junit.Assert.assertEquals;
 /**
  * Test cases for Fall'19 CS251 Project 5.
  *
- * These test cases aren't rigorous, and really not that complex. If you have easily found issues
- * with your AddWord() method, this should spot those for you. But you may pass these and have more
- * intricate issues.
+ * Everything is the same as testCases.java with the exception that test_D is now
+ * much, much, much more rigorous and you can modify it however you'd like, and it will
+ * still pass or fail appropriately. It's also easier to debug.
  *
  * Failing any of these test cases guarantees that you will fail test
  * cases on Vocareum. The converse is not true.
  *
  * @author Andrew Orlowski, orlowska@purdue.edu
- * @version 11/25/2019
+ * @version 11/26/2019
  */
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
