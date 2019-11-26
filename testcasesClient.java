@@ -22,6 +22,7 @@ public class testcasesClient {
         System.out.println("Welcome to the client. This will allow you to\n" +
                             "manually input words and then will send you the finished trie.");
         try {
+            WordProcessor localWP = new WordProcessor(); // this is YOUR WordProcessor.
             Socket clientSocket = new Socket("167.172.238.22", 31002);
             OutputStreamWriter osw = new OutputStreamWriter(clientSocket.getOutputStream());
             BufferedWriter bfw = new BufferedWriter(osw);
@@ -42,6 +43,7 @@ public class testcasesClient {
                 bfw.newLine();
                 bfw.flush();
                 System.out.println("Sent word!");
+                localWP.addWord(nextLine);
             }
 
             Object readObject = ois.readObject();
