@@ -70,14 +70,12 @@ public class testcasesClient {
     // cases (specifically Test_D_AddWord_Expert) to help you narrow down
     // precisely where you first fail the test case.
 
-    public static WordProcessor headlessClient(String[] wordsToAdd) {
+    public static WordProcessor headlessClient(String[] wordsToAdd) throws IOException{
         try {
             Socket clientSocket = new Socket(InetAddress.getLocalHost(), 31002);
             OutputStreamWriter osw = new OutputStreamWriter(clientSocket.getOutputStream());
             BufferedWriter bfw = new BufferedWriter(osw);
             ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
-
-            System.out.println("Please insert a list of words. Type \"exit\" to stop writing words.");
 
 
             for (int i = 0; i < wordsToAdd.length; i++) {
@@ -86,16 +84,18 @@ public class testcasesClient {
                 bfw.flush();
             }
 
+            bfw.write("exit");
+            bfw.newLine();
+            bfw.flush();
+
             Object readObject = ois.readObject();
             return (WordProcessor)readObject;
 
-        } catch (IOException ioe) {
-            System.out.println("IOException!");
-            ioe.printStackTrace();
         } catch (ClassCastException cce) {
             System.out.println("For some reason, the returned Object is not a WordProcessor Object!");
         } catch (ClassNotFoundException cnfe) {
             System.out.println("For some reason, the class was not found when reading the Object!");
         }
+        return null;
     }
 }
