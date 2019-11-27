@@ -46,6 +46,12 @@ public class testcasesServer {
                 LocalDateTime timeObject = LocalDateTime.now();
                 System.out.println(timeObject + ": A client has connected! Client ID: " + client.getRemoteSocketAddress().toString());
                 clientIDs.put(client, client.getRemoteSocketAddress().toString());
+                String strippedString = client.getRemoteSocketAddress().toString();
+                strippedString = strippedString.substring(1);
+                strippedString = strippedString.substring(0, strippedString.indexOf(':'));
+                if (!uniqueClientIDs.contains(strippedString)) {
+                    uniqueClientIDs.add(strippedString);
+                }
                 ClientHandler clientHandler = new ClientHandler(client);
                 clientHandler.start();
             }
