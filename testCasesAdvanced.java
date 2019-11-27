@@ -28,7 +28,7 @@ import static org.junit.Assert.assertTrue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class testCasesAdvanced {
-    public static final int VersionID = 2505;
+    public static final int VersionID = 2510;
 
     WordProcessor wordProcessor = new WordProcessor();
 
@@ -310,7 +310,7 @@ public class testCasesAdvanced {
         try {
             //Note: If you're failing AddWord, you're probably going to have problems here.
             WordProcessor solutionWP = testcasesClient.headlessClient(wordsToAdd);
-            
+
             if (solutionWP == null) {
                 fail("Please update to the latest version of test cases and test client on the Piazza post!");
             }
