@@ -3,6 +3,9 @@ import org.junit.rules.Timeout;
 import org.junit.runners.MethodSorters;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static junit.framework.TestCase.fail;
@@ -284,6 +287,45 @@ public class testCasesAdvanced {
         assertEquals("Ensure that the number of autocomplete suggestions is correct when the prefix exists in the tree already! (2)", 0, wordProcessor.autoCompleteOptions("ABCDE").size());
         assertEquals("Ensure that the number of autocomplete suggestions is correct when the prefix exists in the tree already! (3)", 0, wordProcessor.autoCompleteOptions("Jay").size());
         assertEquals("Ensure that the number of autocomplete suggestions is correct when the prefix exists in the tree already! (4)", 0, wordProcessor.autoCompleteOptions("Jeff").size());
+    }
+
+    @Test
+    public void test_Z_autoCompleteOptions_God() {
+        String[] wordsToAdd = new String[] {"ABCDE", "ABC", "JAY", "JEFF", "JOHN", "JOE", "Jeremy", "Jeremiah", "Mongo", "Mango", "mousepad", "monitor", "tab",
+                "Word", "box", "Navigation", "Emphasis", "Intense", "Pen", "Sharpie", "Dollar", "Pill", "Vitamin", "Centrum", "Napkin", "Nappie", "Bottle", "Bot", "Wire",
+                "Camera", "Circle", "Square", "Rectangle", "Trapezoid", "Sphere", "Cube", "Pyramid", "Hook", "Mouse", "Charger", "Cabinet", "Bag", "Plastic bag", "Paper bag",
+                "Wheat", "Gluten", "Dairy", "Corn", "Soy", "Eggs", "tree nuts", "peanuts", "fish", "you", "can", "modify", "this", "test", "case", "yourself", "if", "are",
+                "on", "the", "client", "-", "server", "pairing", "it", "will", "always", "return", "the", "correct", "solution", "trie", "in", "the", "variable", "solutionWP",
+                "All", "need", "to", "do", "is", "change", "list", "of", "wordsToAdd", "local", "node", "recommend", "failing", "If", "I", "setting", "a", "break", "point",
+                "and", "walking", "through"};
+
+        wordProcessor.addAllWords(wordsToAdd);
+        try {
+            //Note: If you're failing AddWord, you're probably going to have problems here.
+
+            WordProcessor solutionWP = testcasesClient.headlessClient(wordsToAdd);
+
+            for (int i = 0; i < wordsToAdd.length; i++) { // for each word in the array
+                for (int j = 0; j < wordsToAdd[i].length(); j++) { // for each prefix of that word
+                    String prefixString = wordsToAdd[i].substring(0, j);
+                    List<String> solutionAutoCompleteList = solutionWP.autoCompleteOptions(prefixString);
+                    List<String> localAutoCompleteList = wordProcessor.autoCompleteOptions(prefixString);
+                    HashSet<String> localAutoCompleteHashSet = new HashSet<String>(localAutoCompleteList);
+                    assertEquals("Ensure that the size of your autoCompleteOptions List is correct!", solutionAutoCompleteList.size(), localAutoCompleteList.size());
+                    for (int k = 0; k < solutionAutoCompleteList.size(); k++) { // for each word in the solution auto complete list
+                        assertTrue("Ensure that every word in the solution auto completion list exists in the local auto completion list!",
+                                    localAutoCompleteHashSet.contains(solutionAutoCompleteList.get(k)));
+                    }
+
+                }
+            }
+
+
+
+
+        } catch (IOException ioe) {
+            fail("An IOException occurred! Please contact me. The server may be down.");
+        }
     }
 
 }
