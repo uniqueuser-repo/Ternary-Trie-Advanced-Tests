@@ -98,7 +98,6 @@ class ClientHandler extends Thread {
             LocalDateTime timeObject = LocalDateTime.now();
             System.out.println(timeObject + ": Client ID: " + testcasesServer.clientIDs.get(client) + " abruptly closed connection while server awaiting input.");
             testcasesServer.clientIDs.remove(client);
-            se.printStackTrace();
         } catch (IOException ioe) {
             LocalDateTime timeObject = LocalDateTime.now();
             System.out.println("IOException 2!");
