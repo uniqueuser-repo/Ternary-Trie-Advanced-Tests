@@ -3,6 +3,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.InetAddress;
 import java.util.HashMap;
+import java.time.*;
 
 /**
  *  The server for the test cases of CS251 Fall'19 Project 5. It accepts input from clients (students)
@@ -33,7 +34,8 @@ public class testcasesServer {
 
             while (true) {
                 Socket client = serverSocket.accept();
-                System.out.println("A client has connected! Client ID: " + client.getRemoteSocketAddress().toString());
+                LocalDateTime timeObject = LocalDateTime.now();
+                System.out.println(timeObject + ": A client has connected! Client ID: " + client.getRemoteSocketAddress().toString());
                 clientIDs.put(client, client.getRemoteSocketAddress().toString());
                 ClientHandler clientHandler = new ClientHandler(client);
                 clientHandler.start();
@@ -60,26 +62,29 @@ class ClientHandler extends Thread {
             BufferedReader bfr = new BufferedReader(isr);
             while (true) {
                 String readLine = bfr.readLine();
+                LocalDateTime timeObject = LocalDateTime.now();
                 if (readLine == null || readLine.equals("exit")) {
-                    System.out.println("Client ID: " + testcasesServer.clientIDs.get(client) + " is done adding words. Sending back WordProcessor...");
+                    System.out.println(timeObject + ": Client ID: " + testcasesServer.clientIDs.get(client) + " is done adding words. Sending back WordProcessor...");
                     Object sendingObject = (Object)localWP;
                     oos.writeObject(sendingObject);
                     System.out.println("Closing socket.");
                     client.close();
                     break;
                 }
-                System.out.println("Client ID: " + testcasesServer.clientIDs.get(client) + " is adding word " + readLine);
+                System.out.println(timeObject + ": Client ID: " + testcasesServer.clientIDs.get(client) + " is adding word " + readLine);
                 localWP.addWord(readLine);
 
             }
         } catch (IOException ioe) {
+            LocalDateTime timeObject = LocalDateTime.now();
             System.out.println("IOException 2!");
-            System.out.println("Client ID: " + testcasesServer.clientIDs.get(client));
+            System.out.println(timeObject + ": Client ID: " + testcasesServer.clientIDs.get(client));
             testcasesServer.clientIDs.remove(client);
             ioe.printStackTrace();
         } catch (Exception e) {
+            LocalDateTime timeObject = LocalDateTime.now();
             System.out.println("Unexpected Exception!");
-            System.out.println("Client ID: " + testcasesServer.clientIDs.get(client));
+            System.out.println(timeObject + ": Client ID: " + testcasesServer.clientIDs.get(client));
             testcasesServer.clientIDs.remove(client);
             e.printStackTrace();
         }
