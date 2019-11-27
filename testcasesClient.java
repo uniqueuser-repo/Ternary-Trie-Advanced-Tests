@@ -15,7 +15,7 @@ import java.util.Scanner;
  */
 
 public class testcasesClient {
-    public static final int VersionID = 110;
+    public static final int VersionID = 115;
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
@@ -28,6 +28,22 @@ public class testcasesClient {
             BufferedWriter bfw = new BufferedWriter(osw);
             ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
 
+
+            bfw.write(VersionID); //
+            bfw.newLine();        // If you don't have the latest version ID, the server will deny you.
+            bfw.flush();          //
+
+            bfw.write(testCasesAdvanced.VersionID);
+            bfw.newLine();
+            bfw.flush();
+
+            String checkValidVersion = (String)ois.readObject();
+            if (!checkValidVersion.equalsIgnoreCase("Passed!")) {
+                System.out.println(checkValidVersion);
+                return;
+            } else {
+                System.out.println("Passed version validation.");
+            }
 
             System.out.println("Please insert a list of words. Type \"exit\" to stop writing words. After each word, press the enter key.");
 
