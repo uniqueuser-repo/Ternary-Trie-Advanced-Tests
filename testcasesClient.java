@@ -50,7 +50,7 @@ public class testcasesClient {
             Object readObject = ois.readObject();
             WordProcessor solutionWP = (WordProcessor)readObject;
 
-            // If you want to access and analyze the solutionWP, set a break point on line 56 below.
+            // If you want to access and analyze the solutionWP, set a break point on line 58 below.
             // From there, run the client in debug mode (bug in the top right) and work as normal.
             // When you exit, you will have a screen at the bottom that shows all of the variables.
             // From there, you can open the "localWP" and traverse the tree.

@@ -2,6 +2,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.InetAddress;
+import java.net.SocketException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.time.*;
@@ -93,6 +94,11 @@ class ClientHandler extends Thread {
                 localWP.addWord(readLine);
 
             }
+        } catch (SocketException se) {
+            LocalDateTime timeObject = LocalDateTime.now();
+            System.out.println(timeObject + ": Client ID: " + testcasesServer.clientIDs.get(client) + " abruptly closed connection while server awaiting input.");
+            testcasesServer.clientIDs.remove(client);
+            se.printStackTrace();
         } catch (IOException ioe) {
             LocalDateTime timeObject = LocalDateTime.now();
             System.out.println("IOException 2!");
