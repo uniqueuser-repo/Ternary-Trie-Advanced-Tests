@@ -27,6 +27,7 @@ import java.time.*;
  *
  */
 public class testcasesServer {
+    public static final int VersionID = 100;
     public static HashMap<Socket, String> clientIDs = new HashMap<>();
     public static HashSet<String> uniqueClientIDs = new HashSet<>();
     public static void main(String[] args) {
@@ -79,6 +80,15 @@ class ClientHandler extends Thread {
             InputStreamReader isr = new InputStreamReader(client.getInputStream());
             ObjectOutputStream oos = new ObjectOutputStream(client.getOutputStream());
             BufferedReader bfr = new BufferedReader(isr);
+            int clientVersion = bfr.read();
+            if (clientVersion != testcasesServer.VersionID) {
+                oos.writeObject("You have failed the version check. Please update to the latest version on the Piazza post. @1120");
+                oos.flush();
+            } else {
+                oos.writeObject("Passed!");
+                oos.flush();
+            }
+
             while (true) {
                 String readLine = bfr.readLine();
                 LocalDateTime timeObject = LocalDateTime.now();

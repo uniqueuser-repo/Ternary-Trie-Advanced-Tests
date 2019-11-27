@@ -1,7 +1,4 @@
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Scanner;
@@ -18,16 +15,31 @@ import java.util.Scanner;
  */
 
 public class testcasesClient {
+    public static final int VersionID = 99;
+
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         System.out.println("Welcome to the client. This will allow you to\n" +
-                            "manually input words and then will send you the finished trie.");
+                            "manually input words and then will send you the finished trie.\n\n");
         try {
             WordProcessor localWP = new WordProcessor(); // this is YOUR WordProcessor.
-            Socket clientSocket = new Socket("167.172.238.22", 31002);
+            Socket clientSocket = new Socket(InetAddress.getLocalHost(), 31002);
             OutputStreamWriter osw = new OutputStreamWriter(clientSocket.getOutputStream());
             BufferedWriter bfw = new BufferedWriter(osw);
             ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
+
+            bfw.write(VersionID); //
+            bfw.newLine();        // If you don't have the latest version ID, the server will deny you.
+            bfw.flush();          //
+
+            String checkValidVersion = (String)ois.readObject();
+            if (!checkValidVersion.equalsIgnoreCase("Passed!")) {
+                System.out.println(checkValidVersion);
+                return;
+            } else {
+                System.out.println("Passed version validation.");
+            }
+
 
             System.out.println("Please insert a list of words. Type \"exit\" to stop writing words. After each word, press the enter key.");
 
