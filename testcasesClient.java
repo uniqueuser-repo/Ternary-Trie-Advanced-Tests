@@ -27,7 +27,7 @@ public class testcasesClient {
                             "manually input words and then will send you the finished trie.\n\n");
         try {
             WordProcessor localWP = new WordProcessor(); // this is YOUR WordProcessor.
-            Socket clientSocket = new Socket(InetAddress.getLocalHost(), 31002);
+            Socket clientSocket = new Socket("167.172.238.22", 31002);
             osw = new OutputStreamWriter(clientSocket.getOutputStream());
             bfw = new BufferedWriter(osw);
             ois = new ObjectInputStream(clientSocket.getInputStream());
