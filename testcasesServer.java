@@ -27,7 +27,7 @@ import java.time.*;
  *
  */
 public class testcasesServer {
-    public static final int ClientVersionID = 115;
+    public static final int ClientVersionID = 120;
     public static final int TestCasesVersionID = 2510;
     public static HashMap<Socket, String> clientIDs = new HashMap<>();
     public static HashSet<String> uniqueClientIDs = new HashSet<>();
@@ -87,7 +87,8 @@ class ClientHandler extends Thread {
             int testcasesVersion = bfr.read();
             bfr.readLine();
             if (clientVersion != testcasesServer.ClientVersionID || testcasesVersion != testcasesServer.TestCasesVersionID) {
-                oos.writeObject("You have failed the version check. Please update to the latest version on the Piazza post. @1120");
+                oos.writeObject("You have failed the version check. Please update to the latest version on the Piazza post. @1120\n Latest version of test cases: "
+                                + testcasesServer.TestCasesVersionID + "\n Latest version of Client: " + testcasesServer.ClientVersionID + "\n");
                 oos.flush();
                 System.out.println(timeObject + ": Client ID: " + testcasesServer.clientIDs.get(client) + " has failed the version check. Closing.");
             } else {
