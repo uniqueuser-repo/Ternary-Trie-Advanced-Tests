@@ -34,7 +34,10 @@ public class testcasesServer {
                     new Thread("app-shutdown-hook") {
                         @Override
                         public void run() {
-                            System.out.println(uniqueClientIDs.size()); // prints # of unique client IDs that connected
+                            System.out.println("Number of unique clients: " + uniqueClientIDs.size()); // prints # of unique client IDs that connected
+                            for (String s: uniqueClientIDs) {
+                                System.out.println(s);
+                            }
                         }
                     });
 	        InetAddress inetAddress = InetAddress.getLocalHost();
