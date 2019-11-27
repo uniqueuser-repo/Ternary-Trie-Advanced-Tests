@@ -15,7 +15,7 @@ import java.util.Scanner;
  */
 
 public class testcasesClient {
-    public static final int VersionID = 105;
+    public static final int VersionID = 104;
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
@@ -27,22 +27,6 @@ public class testcasesClient {
             OutputStreamWriter osw = new OutputStreamWriter(clientSocket.getOutputStream());
             BufferedWriter bfw = new BufferedWriter(osw);
             ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
-
-            bfw.write(VersionID); //
-            bfw.newLine();        // If you don't have the latest version ID, the server will deny you.
-            bfw.flush();          //
-
-            bfw.write(testCasesAdvanced.VersionID);
-            bfw.newLine();
-            bfw.flush();
-
-            String checkValidVersion = (String)ois.readObject();
-            if (!checkValidVersion.equalsIgnoreCase("Passed!")) {
-                System.out.println(checkValidVersion);
-                return;
-            } else {
-                System.out.println("Passed version validation.");
-            }
 
 
             System.out.println("Please insert a list of words. Type \"exit\" to stop writing words. After each word, press the enter key.");
@@ -96,6 +80,22 @@ public class testcasesClient {
             BufferedWriter bfw = new BufferedWriter(osw);
             ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
 
+
+            bfw.write(VersionID); //
+            bfw.newLine();        // If you don't have the latest version ID, the server will deny you.
+            bfw.flush();          //
+
+            bfw.write(testCasesAdvanced.VersionID);
+            bfw.newLine();
+            bfw.flush();
+
+            String checkValidVersion = (String)ois.readObject();
+            if (!checkValidVersion.equalsIgnoreCase("Passed!")) {
+                System.out.println(checkValidVersion);
+                return null;
+            } else {
+                System.out.println("Passed version validation.");
+            }
 
             for (int i = 0; i < wordsToAdd.length; i++) {
                         bfw.write(wordsToAdd[i]);

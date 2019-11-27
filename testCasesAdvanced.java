@@ -157,6 +157,9 @@ public class testCasesAdvanced {
         wordProcessor.addAllWords(wordsToAdd);
         try {
             WordProcessor solutionWP = testcasesClient.headlessClient(wordsToAdd);
+            if (solutionWP == null) {
+                fail("Please update to the latest version of test cases and test client on the Piazza post!");
+            }
 
             tree_counter(wordProcessor.getWordTrie());
             assertEquals("Ensure that the number of nodes is correct after inserting variable words!", tree_counter(solutionWP.getWordTrie()), tree_counter(wordProcessor.getWordTrie()));
@@ -202,6 +205,9 @@ public class testCasesAdvanced {
         wordProcessor.addAllWords(wordsToAdd);
         try {
             WordProcessor solutionWP = testcasesClient.headlessClient(wordsToAdd);
+            if (solutionWP == null) {
+                fail("Please update to the latest version of test cases and test client on the Piazza post!");
+            }
 
             tree_counter(wordProcessor.getWordTrie());
             assertEquals("Ensure that the number of nodes is correct after inserting variable words!", tree_counter(solutionWP.getWordTrie()), tree_counter(wordProcessor.getWordTrie()));
@@ -303,8 +309,11 @@ public class testCasesAdvanced {
         wordProcessor.addAllWords(wordsToAdd);
         try {
             //Note: If you're failing AddWord, you're probably going to have problems here.
-
             WordProcessor solutionWP = testcasesClient.headlessClient(wordsToAdd);
+            
+            if (solutionWP == null) {
+                fail("Please update to the latest version of test cases and test client on the Piazza post!");
+            }
 
             for (int i = 0; i < wordsToAdd.length; i++) { // for each word in the array
                 for (int j = 0; j < wordsToAdd[i].length(); j++) { // for each prefix of that word
