@@ -28,6 +28,7 @@ import static org.junit.Assert.assertTrue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class testCasesAdvanced {
+    public static final int VersionID = 2505;
 
     WordProcessor wordProcessor = new WordProcessor();
 

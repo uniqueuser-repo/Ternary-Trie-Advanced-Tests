@@ -10,12 +10,12 @@ import java.util.Scanner;
  * Set a breakpoint on line 57 and analyze the tree from there.
  *
  * @author Andrew Orlowski, orlowska@purdue.edu
- * @version 11/26/2019
+ * @version 11/27/2019
  *
  */
 
 public class testcasesClient {
-    public static final int VersionID = 100;
+    public static final int VersionID = 105;
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
@@ -31,6 +31,10 @@ public class testcasesClient {
             bfw.write(VersionID); //
             bfw.newLine();        // If you don't have the latest version ID, the server will deny you.
             bfw.flush();          //
+
+            bfw.write(testCasesAdvanced.VersionID);
+            bfw.newLine();
+            bfw.flush();
 
             String checkValidVersion = (String)ois.readObject();
             if (!checkValidVersion.equalsIgnoreCase("Passed!")) {
