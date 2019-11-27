@@ -15,7 +15,7 @@ import java.util.Scanner;
  */
 
 public class testcasesClient {
-    public static final int VersionID = 120;
+    public static final int VersionID = 125;
 
     private static OutputStreamWriter osw;
     private static BufferedWriter bfw;
@@ -32,7 +32,7 @@ public class testcasesClient {
             bfw = new BufferedWriter(osw);
             ois = new ObjectInputStream(clientSocket.getInputStream());
 
-
+            sendMode(0);
             String versionValidator = validateVersion();
             if (versionValidator == null) {
                 System.out.println("An error occurred.");
@@ -95,7 +95,7 @@ public class testcasesClient {
             bfw = new BufferedWriter(osw);
             ois = new ObjectInputStream(clientSocket.getInputStream());
 
-
+            sendMode(1);
             String versionValidator = validateVersion();
             if (versionValidator == null) {
                 System.out.println("An error occurred.");
@@ -152,5 +152,13 @@ public class testcasesClient {
             }
         }
         return null;
+    }
+
+    public static void sendMode(int mode) throws IOException {
+        if (bfw != null && ois != null) {
+            bfw.write(mode); //
+            bfw.newLine();        // If you don't have the latest version ID, the server will deny you.
+            bfw.flush();          //
+        }
     }
 }

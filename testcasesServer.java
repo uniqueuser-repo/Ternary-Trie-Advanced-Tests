@@ -27,7 +27,7 @@ import java.time.*;
  *
  */
 public class testcasesServer {
-    public static final int ClientVersionID = 120;
+    public static final int ClientVersionID = 125;
     public static final int TestCasesVersionID = 2510;
     public static HashMap<Socket, String> clientIDs = new HashMap<>();
     public static HashSet<String> uniqueClientIDs = new HashSet<>();
@@ -82,6 +82,8 @@ class ClientHandler extends Thread {
             InputStreamReader isr = new InputStreamReader(client.getInputStream());
             ObjectOutputStream oos = new ObjectOutputStream(client.getOutputStream());
             BufferedReader bfr = new BufferedReader(isr);
+            int clientMode = bfr.read();
+            bfr.readLine();
             int clientVersion = bfr.read();
             bfr.readLine();
             int testcasesVersion = bfr.read();
@@ -96,7 +98,12 @@ class ClientHandler extends Thread {
             } else {
                 oos.writeObject("Passed!");
                 oos.flush();
-                System.out.println(timeObject + ": Client ID: " + testcasesServer.clientIDs.get(client) + " has passed the version check.");
+                System.out.print(timeObject + ": Client ID: " + testcasesServer.clientIDs.get(client) + " has passed the version check. Running in mode ");
+                if (clientMode == 0) {
+                    System.out.println("manual.");
+                } else {
+                    System.out.println("automatic.");
+                }
             }
 
             while (true) {
