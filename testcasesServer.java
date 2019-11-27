@@ -30,7 +30,14 @@ public class testcasesServer {
     public static HashSet<String> uniqueClientIDs = new HashSet<>();
     public static void main(String[] args) {
         try {
-	    InetAddress inetAddress = InetAddress.getLocalHost();
+            Runtime.getRuntime().addShutdownHook(
+                    new Thread("app-shutdown-hook") {
+                        @Override
+                        public void run() {
+                            System.out.println(uniqueClientIDs.size()); // prints # of unique client IDs that connected
+                        }
+                    });
+	        InetAddress inetAddress = InetAddress.getLocalHost();
             System.out.println("Server listening on IP 167.172.238.22 running on port 31002....");
             ServerSocket serverSocket = new ServerSocket(31002);
 
