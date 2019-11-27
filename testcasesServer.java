@@ -77,6 +77,7 @@ class ClientHandler extends Thread {
     public void run() {
         WordProcessor localWP = new WordProcessor();
         try {
+            LocalDateTime timeObject = LocalDateTime.now();
             InputStreamReader isr = new InputStreamReader(client.getInputStream());
             ObjectOutputStream oos = new ObjectOutputStream(client.getOutputStream());
             BufferedReader bfr = new BufferedReader(isr);
@@ -84,14 +85,15 @@ class ClientHandler extends Thread {
             if (clientVersion != testcasesServer.VersionID) {
                 oos.writeObject("You have failed the version check. Please update to the latest version on the Piazza post. @1120");
                 oos.flush();
+                System.out.println(timeObject + ": Client ID: " + testcasesServer.clientIDs.get(client) + " has failed the version check. Closing.");
             } else {
                 oos.writeObject("Passed!");
                 oos.flush();
+                System.out.println(timeObject + ": Client ID: " + testcasesServer.clientIDs.get(client) + " has passed the version check.");
             }
 
             while (true) {
                 String readLine = bfr.readLine();
-                LocalDateTime timeObject = LocalDateTime.now();
                 if (readLine == null || readLine.equals("exit")) {
                     System.out.println(timeObject + ": Client ID: " + testcasesServer.clientIDs.get(client) + " is done adding words. Sending back WordProcessor...");
                     Object sendingObject = (Object)localWP;

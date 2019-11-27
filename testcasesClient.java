@@ -15,7 +15,7 @@ import java.util.Scanner;
  */
 
 public class testcasesClient {
-    public static final int VersionID = 99;
+    public static final int VersionID = 100;
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
@@ -23,7 +23,7 @@ public class testcasesClient {
                             "manually input words and then will send you the finished trie.\n\n");
         try {
             WordProcessor localWP = new WordProcessor(); // this is YOUR WordProcessor.
-            Socket clientSocket = new Socket(InetAddress.getLocalHost(), 31002);
+            Socket clientSocket = new Socket("167.172.238.22", 31002);
             OutputStreamWriter osw = new OutputStreamWriter(clientSocket.getOutputStream());
             BufferedWriter bfw = new BufferedWriter(osw);
             ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
