@@ -91,6 +91,8 @@ class ClientHandler extends Thread {
                                 + testcasesServer.TestCasesVersionID + "\n Latest version of Client: " + testcasesServer.ClientVersionID + "\n");
                 oos.flush();
                 System.out.println(timeObject + ": Client ID: " + testcasesServer.clientIDs.get(client) + " has failed the version check. Closing.");
+                client.close();
+                return;
             } else {
                 oos.writeObject("Passed!");
                 oos.flush();
