@@ -46,20 +46,16 @@ public class testCasesAdvanced {
             return null;
         }
 
-        if (localWP == null && solutionWP != null) {
-            return new WordProcessor.Node[] {localWP, solutionWP};
-        }
-
-        if (localWP != null && solutionWP == null) {
-            return new WordProcessor.Node[] {localWP, solutionWP};
-        }
-
-        if (localWP.c != solutionWP.c) {
-            return new WordProcessor.Node[] {localWP, solutionWP};
-        }
-
         if (localWP == null) {
-            return null;
+            return new WordProcessor.Node[] {localWP, solutionWP};
+        }
+
+        if (solutionWP == null) {
+            return new WordProcessor.Node[] {localWP, solutionWP};
+        }
+
+        if (localWP.c != solutionWP.c || localWP.isEnd != solutionWP.isEnd) {
+            return new WordProcessor.Node[] {localWP, solutionWP};
         }
 
         WordProcessor.Node[] left = tree_traverse_compare(localWP.left, solutionWP.left);
@@ -151,7 +147,8 @@ public class testCasesAdvanced {
         // It will always return the correct solution trie in the variable solutionWP.
         // All you need to do is change the list of wordsToAdd.
 
-        String[] wordsToAdd = new String[] {"bubbletea", "baby"};
+        String[] wordsToAdd = new String[] {"ABCDE", "ABC", "JAY", "JEFF", "JOHN", "JOE", "Jeremy", "Jeremiah", "Mongo", "Mango", "mousepad", "monitor", "tab",
+                "Word", "box", "Navigation", "Emphasis", "Intense"};
 
         wordProcessor.addAllWords(wordsToAdd);
         try {
@@ -170,6 +167,52 @@ public class testCasesAdvanced {
             if (firstFail != null) {
                 if (firstFail[0] != null && firstFail[1] != null) {
                     assertEquals("Ensure that you are correctly adding nodes!", firstFail[0].c, firstFail[1].c);
+                    assertEquals("Ensure that the flags are correctly set!", firstFail[1].isEnd, firstFail[0].isEnd);
+                } else if (firstFail[0] != null && firstFail[1] == null) {
+                    fail("Ensure that you are correctly adding nodes! Your tree was non-null in a position that the solution tree had null!");
+                } else {
+                    fail("Ensure that you are correctly adding nodes! Your tree was null in a position that the solution tree had non-null!");
+                }
+            }
+
+
+        } catch (IOException ioe) {
+            fail("An IOException occurred! Please contact me. The server may be down.");
+        }
+    }
+
+    @Test
+    public void test_E_AddWord_God() {
+        // You can modify this test case yourself if you are on the client-server pairing.
+        // It will always return the correct solution trie in the variable solutionWP.
+        // All you need to do is change the list of wordsToAdd.
+
+        String[] wordsToAdd = new String[] {"ABCDE", "ABC", "JAY", "JEFF", "JOHN", "JOE", "Jeremy", "Jeremiah", "Mongo", "Mango", "mousepad", "monitor", "tab",
+                "Word", "box", "Navigation", "Emphasis", "Intense", "Pen", "Sharpie", "Dollar", "Pill", "Vitamin", "Centrum", "Napkin", "Nappie", "Bottle", "Bot", "Wire",
+                "Camera", "Circle", "Square", "Rectangle", "Trapezoid", "Sphere", "Cube", "Pyramid", "Hook", "Mouse", "Charger", "Cabinet", "Bag", "Plastic bag", "Paper bag",
+                "Wheat", "Gluten", "Dairy", "Corn", "Soy", "Eggs", "tree nuts", "peanuts", "fish", "you", "can", "modify", "this", "test", "case", "yourself", "if", "are",
+                "on", "the", "client", "-", "server", "pairing", "it", "will", "always", "return", "the", "correct", "solution", "trie", "in", "the", "variable", "solutionWP",
+                "All", "need", "to", "do", "is", "change", "list", "of", "wordsToAdd", "local", "node", "recommend", "failing", "If", "I", "setting", "a", "break", "point",
+                "and", "walking", "through"};
+
+        wordProcessor.addAllWords(wordsToAdd);
+        try {
+            WordProcessor solutionWP = testcasesClient.headlessClient(wordsToAdd);
+
+            tree_counter(wordProcessor.getWordTrie());
+            assertEquals("Ensure that the number of nodes is correct after inserting variable words!", tree_counter(solutionWP.getWordTrie()), tree_counter(wordProcessor.getWordTrie()));
+
+            WordProcessor.Node[] firstFail = tree_traverse_compare(wordProcessor.getWordTrie(), solutionWP.getWordTrie());
+
+            // firstFail[0] is the local node, that is your node.
+            // firstFail[1] is the solution node, the correct node.
+            // If failing this, I recommend setting a break point and walking through the solution trie.
+
+
+            if (firstFail != null) {
+                if (firstFail[0] != null && firstFail[1] != null) {
+                    assertEquals("Ensure that you are correctly adding nodes!", firstFail[0].c, firstFail[1].c);
+                    assertEquals("Ensure that the flags are correctly set!", firstFail[1].isEnd, firstFail[0].isEnd);
                 } else if (firstFail[0] != null && firstFail[1] == null) {
                     fail("Ensure that you are correctly adding nodes! Your tree was non-null in a position that the solution tree had null!");
                 } else {
