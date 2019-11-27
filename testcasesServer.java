@@ -3,6 +3,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.InetAddress;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.time.*;
 
 /**
@@ -26,9 +27,10 @@ import java.time.*;
  */
 public class testcasesServer {
     public static HashMap<Socket, String> clientIDs = new HashMap<>();
+    public static HashSet<String> uniqueClientIDs = new HashSet<>();
     public static void main(String[] args) {
         try {
-	        InetAddress inetAddress = InetAddress.getLocalHost();
+	    InetAddress inetAddress = InetAddress.getLocalHost();
             System.out.println("Server listening on IP 167.172.238.22 running on port 31002....");
             ServerSocket serverSocket = new ServerSocket(31002);
 
