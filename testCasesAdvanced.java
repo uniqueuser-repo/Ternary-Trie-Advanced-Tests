@@ -28,7 +28,8 @@ import static org.junit.Assert.assertTrue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class testCasesAdvanced {
-    public static final int VersionID = 2510;
+    private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    public static final int VersionID = 2515;
 
     WordProcessor wordProcessor = new WordProcessor();
 
@@ -77,6 +78,15 @@ public class testCasesAdvanced {
         } else {
             return right;
         }
+    }
+
+    public static String randomAlphaNumeric(int count) {
+        StringBuilder builder = new StringBuilder();
+        while (count-- != 0) {
+            int character = (int)(Math.random()*ALPHA_NUMERIC_STRING.length());
+            builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+        }
+        return builder.toString();
     }
 
     @Rule
@@ -298,7 +308,8 @@ public class testCasesAdvanced {
 
     @Test
     public void test_Z_autoCompleteOptions_God() {
-        String[] wordsToAdd = new String[] {"ABCDE", "ABC", "JAY", "JEFF", "JOHN", "JOE", "Jeremy", "Jeremiah", "Mongo", "Mango", "mousepad", "monitor", "tab",
+        String[] wordsToAdd = new String[] {"ABCDE", "ABC", "ABCDFE", "ABCFDOI", "AOHGRSOG", "VSJVIS", "AbcDefGhe", "ABCaka", "ABELINCOLN", "ABRSRG", "ABCDFSDF", "ABfsgf",
+                "JAY", "JEFF", "JOHN", "JOE", "Jeremy", "Jeremiah", "Mongo", "Mango", "mousepad", "monitor", "tab", "ABCKEN", "ABKen", "ABCODP", "OFEAPn", "LEAON", "XRGS",
                 "Word", "box", "Navigation", "Emphasis", "Intense", "Pen", "Sharpie", "Dollar", "Pill", "Vitamin", "Centrum", "Napkin", "Nappie", "Bottle", "Bot", "Wire",
                 "Camera", "Circle", "Square", "Rectangle", "Trapezoid", "Sphere", "Cube", "Pyramid", "Hook", "Mouse", "Charger", "Cabinet", "Bag", "Plastic bag", "Paper bag",
                 "Wheat", "Gluten", "Dairy", "Corn", "Soy", "Eggs", "tree nuts", "peanuts", "fish", "you", "can", "modify", "this", "test", "case", "yourself", "if", "are",
@@ -327,6 +338,20 @@ public class testCasesAdvanced {
                                     localAutoCompleteHashSet.contains(solutionAutoCompleteList.get(k)));
                     }
 
+                }
+            }
+
+            int numRandomStringAutoCompletes = 100; // modify this to test more random string auto completes.
+            int lenRandomString = 6;                // modify this to test varying lengths of random strings.
+            for (int i = 0; i < numRandomStringAutoCompletes; i++) {
+                String randomString = randomAlphaNumeric(lenRandomString);
+                List<String> solutionAutoCompleteList = solutionWP.autoCompleteOptions(randomString);
+                List<String> localAutoCompleteList = wordProcessor.autoCompleteOptions(randomString);
+                HashSet<String> localAutoCompleteHashSet = new HashSet<String>(localAutoCompleteList);
+                assertEquals("Ensure that the size of your autoCompleteOptions List is correct given random String " + randomString, solutionAutoCompleteList.size(), localAutoCompleteList.size());
+                for (int k = 0; k < solutionAutoCompleteList.size(); k++) { // for each word in the solution auto complete list
+                    assertTrue("Ensure that every word in the solution auto completion list exists in the local auto completion list!",
+                            localAutoCompleteHashSet.contains(solutionAutoCompleteList.get(k)));
                 }
             }
 
