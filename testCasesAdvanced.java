@@ -204,13 +204,15 @@ public class testCasesAdvanced {
         // It will always return the correct solution trie in the variable solutionWP.
         // All you need to do is change the list of wordsToAdd.
 
-        String[] wordsToAdd = new String[] {"ABCDE", "ABC", "JAY", "JEFF", "JOHN", "JOE", "Jeremy", "Jeremiah", "Mongo", "Mango", "mousepad", "monitor", "tab",
+        String[] wordsToAdd = new String[] {"ABCDE", "ABC", "ABCDFE", "ABCFDOI", "AOHGRSOG", "VSJVIS", "AbcDefGhe", "ABCaka", "ABELINCOLN", "ABRSRG", "ABCDFSDF", "ABfsgf",
+                "JAY", "JEFF", "JOHN", "JOE", "Jeremy", "Jeremiah", "Mongo", "Mango", "mousepad", "monitor", "tab", "ABCKEN", "ABKen", "ABCODP", "OFEAPn", "LEAON", "XRGS",
                 "Word", "box", "Navigation", "Emphasis", "Intense", "Pen", "Sharpie", "Dollar", "Pill", "Vitamin", "Centrum", "Napkin", "Nappie", "Bottle", "Bot", "Wire",
                 "Camera", "Circle", "Square", "Rectangle", "Trapezoid", "Sphere", "Cube", "Pyramid", "Hook", "Mouse", "Charger", "Cabinet", "Bag", "Plastic bag", "Paper bag",
                 "Wheat", "Gluten", "Dairy", "Corn", "Soy", "Eggs", "tree nuts", "peanuts", "fish", "you", "can", "modify", "this", "test", "case", "yourself", "if", "are",
                 "on", "the", "client", "-", "server", "pairing", "it", "will", "always", "return", "the", "correct", "solution", "trie", "in", "the", "variable", "solutionWP",
                 "All", "need", "to", "do", "is", "change", "list", "of", "wordsToAdd", "local", "node", "recommend", "failing", "If", "I", "setting", "a", "break", "point",
-                "and", "walking", "through", "Joker. The Young Man", "Joker. The Old Man", "Joker. Funny", "joker, big"};
+                "and", "walking", "through", "Joker. The Young Man", "Joker. The Old Man", "Joker. Funny", "joker, big", "A", "B", "C", "D", "\\V][Lanmp", "][ALeaop-", "\\V][IEO",
+                "LE\\OEA\\ee", "[[]][[", "]][[{", "ABCDE", "ABC", "ABCDFE", "\n", "word\n", "\nword", "\nwo\nrd\n"};
 
         wordProcessor.addAllWords(wordsToAdd);
         try {
@@ -316,7 +318,7 @@ public class testCasesAdvanced {
                 "on", "the", "client", "-", "server", "pairing", "it", "will", "always", "return", "the", "correct", "solution", "trie", "in", "the", "variable", "solutionWP",
                 "All", "need", "to", "do", "is", "change", "list", "of", "wordsToAdd", "local", "node", "recommend", "failing", "If", "I", "setting", "a", "break", "point",
                 "and", "walking", "through", "Joker. The Young Man", "Joker. The Old Man", "Joker. Funny", "joker, big", "A", "B", "C", "D", "\\V][Lanmp", "][ALeaop-", "\\V][IEO",
-                "LE\\OEA\\ee", "[[]][[", "]][[{", "ABCDE", "ABC", "ABCDFE"};
+                "LE\\OEA\\ee", "[[]][[", "]][[{", "ABCDE", "ABC", "ABCDFE", "\n", "word\n", "\nword", "\nwo\nrd\n"};
 
         wordProcessor.addAllWords(wordsToAdd);
         try {
