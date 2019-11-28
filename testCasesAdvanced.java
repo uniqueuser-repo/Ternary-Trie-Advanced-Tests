@@ -316,7 +316,7 @@ public class testCasesAdvanced {
                 "on", "the", "client", "-", "server", "pairing", "it", "will", "always", "return", "the", "correct", "solution", "trie", "in", "the", "variable", "solutionWP",
                 "All", "need", "to", "do", "is", "change", "list", "of", "wordsToAdd", "local", "node", "recommend", "failing", "If", "I", "setting", "a", "break", "point",
                 "and", "walking", "through", "Joker. The Young Man", "Joker. The Old Man", "Joker. Funny", "joker, big", "A", "B", "C", "D", "\\V][Lanmp", "][ALeaop-", "\\V][IEO",
-                "LE\\OEA\\ee", "[[]][[", "]][[{"};
+                "LE\\OEA\\ee", "[[]][[", "]][[{", "ABCDE", "ABC", "ABCDFE"};
 
         wordProcessor.addAllWords(wordsToAdd);
         try {
