@@ -315,7 +315,8 @@ public class testCasesAdvanced {
                 "Wheat", "Gluten", "Dairy", "Corn", "Soy", "Eggs", "tree nuts", "peanuts", "fish", "you", "can", "modify", "this", "test", "case", "yourself", "if", "are",
                 "on", "the", "client", "-", "server", "pairing", "it", "will", "always", "return", "the", "correct", "solution", "trie", "in", "the", "variable", "solutionWP",
                 "All", "need", "to", "do", "is", "change", "list", "of", "wordsToAdd", "local", "node", "recommend", "failing", "If", "I", "setting", "a", "break", "point",
-                "and", "walking", "through", "Joker. The Young Man", "Joker. The Old Man", "Joker. Funny", "joker, big", "A", "B", "C", "D"};
+                "and", "walking", "through", "Joker. The Young Man", "Joker. The Old Man", "Joker. Funny", "joker, big", "A", "B", "C", "D", "\\V][Lanmp", "][ALeaop-", "\\V][IEO",
+                "LE\\OEA\\ee", "[[]][[", "]][[{"};
 
         wordProcessor.addAllWords(wordsToAdd);
         try {
