@@ -194,7 +194,7 @@ public class testCasesAdvanced {
 
 
         } catch (IOException ioe) {
-            fail("An IOException occurred! Please contact me. The server may be down.");
+            fail("An IOException occurred! Please contact me. The server may be down. Most likely, you just need to update to the latest version.");
         }
     }
 
@@ -244,7 +244,7 @@ public class testCasesAdvanced {
 
 
         } catch (IOException ioe) {
-            fail("An IOException occurred! Please contact me. The server may be down.");
+            fail("An IOException occurred! Please contact me. The server may be down. Most likely, you just need to update to the latest version.");
         }
     }
 
@@ -362,7 +362,7 @@ public class testCasesAdvanced {
 
 
         } catch (IOException ioe) {
-            fail("An IOException occurred! Please contact me. The server may be down.");
+            fail("An IOException occurred! Please contact me. The server may be down. Most likely, you just need to update to the latest version.");
         }
     }
 

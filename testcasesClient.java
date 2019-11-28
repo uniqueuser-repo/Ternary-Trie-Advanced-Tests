@@ -71,12 +71,12 @@ public class testcasesClient {
 
 
         } catch (IOException ioe) {
-            System.out.println("IOException!");
+            System.out.println("IOException! Most likely, you just need to update to the latest version.");
             ioe.printStackTrace();
         } catch (ClassCastException cce) {
-            System.out.println("For some reason, the returned Object is not a WordProcessor Object!");
+            System.out.println("For some reason, the returned Object is not a WordProcessor Object! Most likely, you just need to update to the latest version.");
         } catch (ClassNotFoundException cnfe) {
-            System.out.println("For some reason, the class was not found when reading the Object!");
+            System.out.println("For some reason, the class was not found when reading the Object! Most likely, you just need to update to the latest version.");
         }
     }
 
@@ -115,9 +115,9 @@ public class testcasesClient {
             return (WordProcessor)readObject;
 
         } catch (ClassCastException cce) {
-            System.out.println("For some reason, the returned Object is not a WordProcessor Object!");
+            System.out.println("For some reason, the returned Object is not a WordProcessor Object! Most likely, you just need to update to the latest version.");
         } catch (ClassNotFoundException cnfe) {
-            System.out.println("For some reason, the class was not found when reading the Object!");
+            System.out.println("For some reason, the class was not found when reading the Object! Most likely, you just need to update to the latest version.");
         }
         return null;
     }
@@ -140,10 +140,10 @@ public class testcasesClient {
                 }
             } catch (IOException ioe) {
                 ioe.printStackTrace();
-                return "IOException when validating Version!";
+                return "IOException when validating Version! Most likely, you just need to update to the latest version.";
             } catch (ClassNotFoundException cnfe) {
                 cnfe.printStackTrace();
-                return "ClassNotFoundException when validating Version!";
+                return "ClassNotFoundException when validating Version! Most likely, you just need to update to the latest version.";
             }
         }
         return null;
