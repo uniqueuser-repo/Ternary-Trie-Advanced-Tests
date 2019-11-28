@@ -15,11 +15,11 @@ import java.util.Scanner;
  */
 
 public class testcasesClient {
-    public static final int VersionID = 125;
+    public static final int VersionID = 130;
 
     private static OutputStreamWriter osw;
-    private static BufferedWriter bfw;
     private static ObjectInputStream ois;
+    private static ObjectOutputStream oos;
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
@@ -28,8 +28,7 @@ public class testcasesClient {
         try {
             WordProcessor localWP = new WordProcessor(); // this is YOUR WordProcessor.
             Socket clientSocket = new Socket("167.172.238.22", 31002);
-            osw = new OutputStreamWriter(clientSocket.getOutputStream());
-            bfw = new BufferedWriter(osw);
+            oos = new ObjectOutputStream(clientSocket.getOutputStream());
             ois = new ObjectInputStream(clientSocket.getInputStream());
 
             sendMode(0);
@@ -50,14 +49,12 @@ public class testcasesClient {
                 String nextLine = scan.nextLine();
                 if (nextLine.equals("exit")) {
                     System.out.println("Retrieving solution WordProcessor from server...");
-                    bfw.write(nextLine);
-                    bfw.newLine();
-                    bfw.flush();
+                    oos.writeObject(nextLine);
+                    oos.flush();
                     break;
                 }
-                bfw.write(nextLine);
-                bfw.newLine();
-                bfw.flush();
+                oos.writeObject(nextLine);
+                oos.flush();
                 System.out.println("Sent word!");
                 localWP.addWord(nextLine);
             }
@@ -92,7 +89,7 @@ public class testcasesClient {
         try {
             Socket clientSocket = new Socket("167.172.238.22", 31002);
             osw = new OutputStreamWriter(clientSocket.getOutputStream());
-            bfw = new BufferedWriter(osw);
+            oos = new ObjectOutputStream(clientSocket.getOutputStream());
             ois = new ObjectInputStream(clientSocket.getInputStream());
 
             sendMode(1);
@@ -106,14 +103,13 @@ public class testcasesClient {
             }
 
             for (int i = 0; i < wordsToAdd.length; i++) {
-                        bfw.write(wordsToAdd[i]);
-                        bfw.newLine();
-                        bfw.flush();
+
+                        oos.writeObject(wordsToAdd[i]);
+                        oos.flush();
             }
 
-            bfw.write("exit");
-            bfw.newLine();
-            bfw.flush();
+            oos.writeObject("exit");
+            oos.flush();
 
             Object readObject = ois.readObject();
             return (WordProcessor)readObject;
@@ -127,15 +123,14 @@ public class testcasesClient {
     }
 
     private static String validateVersion() {
-        if (bfw != null && ois != null) {
+        if (oos != null && ois != null) {
             try {
-                bfw.write(VersionID); //
-                bfw.newLine();        // If you don't have the latest version ID, the server will deny you.
-                bfw.flush();          //
+                oos.write(VersionID);
+                oos.flush();
 
-                bfw.write(testCasesAdvanced.VersionID);
-                bfw.newLine();
-                bfw.flush();
+                int testcasesVersion = testCasesAdvanced.VersionID;
+                oos.writeObject(new Integer(testCasesAdvanced.VersionID));
+                oos.flush();
 
                 String checkValidVersion = (String)ois.readObject();
                 if (!checkValidVersion.equalsIgnoreCase("Passed!")) {
@@ -155,10 +150,9 @@ public class testcasesClient {
     }
 
     public static void sendMode(int mode) throws IOException {
-        if (bfw != null && ois != null) {
-            bfw.write(mode); //
-            bfw.newLine();        // If you don't have the latest version ID, the server will deny you.
-            bfw.flush();          //
+        if (oos != null && ois != null) {
+            oos.write(mode);
+            oos.flush();
         }
     }
 }

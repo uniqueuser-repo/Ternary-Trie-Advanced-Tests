@@ -27,8 +27,8 @@ import java.time.*;
  *
  */
 public class testcasesServer {
-    public static final int ClientVersionID = 125;
-    public static final int TestCasesVersionID = 2520;
+    public static final int ClientVersionID = 130;
+    public static final int TestCasesVersionID = 2550;
     public static HashMap<Socket, String> clientIDs = new HashMap<>();
     public static HashSet<String> uniqueClientIDs = new HashSet<>();
 
@@ -37,10 +37,6 @@ public class testcasesServer {
         strippedString = strippedString.substring(1);
         strippedString = strippedString.substring(0, strippedString.indexOf(':'));
         return strippedString;
-    }
-
-    public static String modeVersionCheck(BufferedReader bfr) {
-        return "Fail!";
     }
 
     public static void main(String[] args) {
@@ -89,16 +85,14 @@ class ClientHandler extends Thread {
         WordProcessor localWP = new WordProcessor();
         try {
             LocalDateTime timeObject = LocalDateTime.now();
-            InputStreamReader isr = new InputStreamReader(client.getInputStream());
             ObjectOutputStream oos = new ObjectOutputStream(client.getOutputStream());
-            BufferedReader bfr = new BufferedReader(isr);
+            ObjectInputStream ois = new ObjectInputStream(client.getInputStream());
 
-            int clientMode = bfr.read();
-            bfr.readLine();
-            int clientVersion = bfr.read();
-            bfr.readLine();
-            int testcasesVersion = bfr.read();
-            bfr.readLine();
+            int clientMode = ois.read();
+            int clientVersion = ois.read();
+            Integer testcasesVersion = (Integer)ois.readObject();
+            int testcasesVersionint = Integer.parseInt(testcasesVersion.toString());
+
             if (clientVersion != testcasesServer.ClientVersionID || testcasesVersion != testcasesServer.TestCasesVersionID) {
                 oos.writeObject("You have failed the version check. Please update to the latest version on the Piazza post. @1120\n Latest version of test cases: "
                                 + testcasesServer.TestCasesVersionID + "\n Latest version of Client: " + testcasesServer.ClientVersionID + "\n");
@@ -118,10 +112,10 @@ class ClientHandler extends Thread {
             }
 
             while (true) {
-                String readLine = bfr.readLine();
+                String readLine = (String)ois.readObject() ;
                 if (readLine == null || readLine.equals("exit")) {
                     System.out.println(timeObject + ": Client ID: " + testcasesServer.clientIDs.get(client) + " is done adding words. Sending back WordProcessor...");
-                    Object sendingObject = (Object)localWP;
+                    Object sendingObject = localWP;
                     oos.writeObject(sendingObject);
                     System.out.println("Closing socket.");
                     client.close();
