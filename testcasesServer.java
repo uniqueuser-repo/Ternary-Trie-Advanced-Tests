@@ -84,6 +84,8 @@ class ClientHandler extends Thread {
     public void run() {
         WordProcessor localWP = new WordProcessor();
         try {
+            int wordCounter = 0;
+            boolean tripped = false;
             LocalDateTime timeObject = LocalDateTime.now();
             ObjectOutputStream oos = new ObjectOutputStream(client.getOutputStream());
             ObjectInputStream ois = new ObjectInputStream(client.getInputStream());
@@ -121,7 +123,16 @@ class ClientHandler extends Thread {
                     client.close();
                     break;
                 }
-                System.out.println(timeObject + ": Client ID: " + testcasesServer.clientIDs.get(client) + " is adding word " + readLine);
+                if (wordCounter >= 170) {
+                    System.out.println(timeObject + ": Client ID: " + testcasesServer.clientIDs.get(client) + " is adding word " + readLine);
+                    System.out.println(timeObject + ": Client ID: " + testcasesServer.clientIDs.get(client) + " stopped printing words to console. Exceeded 170 words.");
+                    tripped = true;
+                }
+                if (tripped == false) {
+                    System.out.println(timeObject + ": Client ID: " + testcasesServer.clientIDs.get(client) + " is adding word " + readLine);
+                }
+                
+                wordCounter++;
                 localWP.addWord(readLine);
 
             }
