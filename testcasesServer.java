@@ -31,6 +31,18 @@ public class testcasesServer {
     public static final int TestCasesVersionID = 2520;
     public static HashMap<Socket, String> clientIDs = new HashMap<>();
     public static HashSet<String> uniqueClientIDs = new HashSet<>();
+
+    public static String stripString(Socket clientSocket) {
+        String strippedString = clientSocket.getRemoteSocketAddress().toString();
+        strippedString = strippedString.substring(1);
+        strippedString = strippedString.substring(0, strippedString.indexOf(':'));
+        return strippedString;
+    }
+
+    public static String modeVersionCheck(BufferedReader bfr) {
+        return "Fail!";
+    }
+
     public static void main(String[] args) {
         try {
             Runtime.getRuntime().addShutdownHook(
@@ -52,9 +64,7 @@ public class testcasesServer {
                 LocalDateTime timeObject = LocalDateTime.now();
                 System.out.println(timeObject + ": A client has connected! Client ID: " + client.getRemoteSocketAddress().toString());
                 clientIDs.put(client, client.getRemoteSocketAddress().toString());
-                String strippedString = client.getRemoteSocketAddress().toString();
-                strippedString = strippedString.substring(1);
-                strippedString = strippedString.substring(0, strippedString.indexOf(':'));
+                String strippedString = stripString(client);
                 if (!uniqueClientIDs.contains(strippedString)) {
                     uniqueClientIDs.add(strippedString);
                 }
@@ -82,6 +92,7 @@ class ClientHandler extends Thread {
             InputStreamReader isr = new InputStreamReader(client.getInputStream());
             ObjectOutputStream oos = new ObjectOutputStream(client.getOutputStream());
             BufferedReader bfr = new BufferedReader(isr);
+
             int clientMode = bfr.read();
             bfr.readLine();
             int clientVersion = bfr.read();
