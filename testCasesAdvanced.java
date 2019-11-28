@@ -29,7 +29,7 @@ import static org.junit.Assert.assertTrue;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class testCasesAdvanced {
     private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    public static final int VersionID = 2515;
+    public static final int VersionID = 2520;
 
     WordProcessor wordProcessor = new WordProcessor();
 
@@ -315,7 +315,7 @@ public class testCasesAdvanced {
                 "Wheat", "Gluten", "Dairy", "Corn", "Soy", "Eggs", "tree nuts", "peanuts", "fish", "you", "can", "modify", "this", "test", "case", "yourself", "if", "are",
                 "on", "the", "client", "-", "server", "pairing", "it", "will", "always", "return", "the", "correct", "solution", "trie", "in", "the", "variable", "solutionWP",
                 "All", "need", "to", "do", "is", "change", "list", "of", "wordsToAdd", "local", "node", "recommend", "failing", "If", "I", "setting", "a", "break", "point",
-                "and", "walking", "through", "Joker. The Young Man", "Joker. The Old Man", "Joker. Funny", "joker, big"};
+                "and", "walking", "through", "Joker. The Young Man", "Joker. The Old Man", "Joker. Funny", "joker, big", "A", "B", "C", "D"};
 
         wordProcessor.addAllWords(wordsToAdd);
         try {
