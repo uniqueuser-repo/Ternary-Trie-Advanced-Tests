@@ -46,7 +46,7 @@ public class testcasesServer {
                         @Override
                         public void run() {
                             System.out.println("Number of unique clients: " + uniqueClientIDs.size()); // prints # of unique client IDs that connected
-                            for (String s: uniqueClientIDs) {
+                            for (String s: uniqueClientIDs) {                                          // when process gets killed in the server
                                 System.out.println(s);
                             }
                         }
@@ -60,12 +60,12 @@ public class testcasesServer {
                 LocalDateTime timeObject = LocalDateTime.now();
                 System.out.println(timeObject + ": A client has connected! Client ID: " + client.getRemoteSocketAddress().toString());
                 clientIDs.put(client, client.getRemoteSocketAddress().toString());
-                String strippedString = stripString(client);
-                if (!uniqueClientIDs.contains(strippedString)) {
+                String strippedString = stripString(client);                     // strips to JUST the IP address, nothing else.
+                if (!uniqueClientIDs.contains(strippedString)) {                 // adds the IP Address if it's not already in the HashSet
                     uniqueClientIDs.add(strippedString);
                 }
-                ClientHandler clientHandler = new ClientHandler(client);
-                clientHandler.start();
+                ClientHandler clientHandler = new ClientHandler(client);         // create a thread to handle the client
+                clientHandler.start();                                           // run the thread
             }
         } catch (IOException ioe) {
             System.out.println("IOException 1!");
@@ -131,7 +131,7 @@ class ClientHandler extends Thread {
                 if (tripped == false) {
                     System.out.println(timeObject + ": Client ID: " + testcasesServer.clientIDs.get(client) + " is adding word " + readLine);
                 }
-                
+
                 wordCounter++;
                 localWP.addWord(readLine);
 
