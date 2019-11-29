@@ -14,3 +14,5 @@ don't have to encounter the same struggle that I did. These are one of such test
              stepping through with a debugger.
              
 End of 11/26/2019 - Finished branching out the project. Published the client on the online help board. Students will now have access to a solution trie via running testcasesAdvanced in conjunction with having testcasesClient.java.
+
+11/27/2019 and beyond - Bugfixing, i.e. swapping from BufferedReader/Writer to ObjectInputStream/OutputStream due to BFR's issues accepting words with '\n' characters, adding comments, and adding more words to the default test cases.
