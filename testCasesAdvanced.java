@@ -89,10 +89,7 @@ public class testCasesAdvanced {
         return builder.toString();
     }
 
-    @Rule
-    public Timeout globalTimeout = new Timeout(30, TimeUnit.SECONDS);
-
-    @Test
+    @Test(timeout = 2000)
     public void Test_A_clear() {
         wordProcessor.addWord("testing");
         wordProcessor.clear();
@@ -100,7 +97,7 @@ public class testCasesAdvanced {
     }
 
 
-    @Test
+    @Test(timeout = 2000)
     public void test_B_AddWord_Simple() {
         wordProcessor.addWord("ABCDE");
         WordProcessor.Node traversalNode = wordProcessor.getWordTrie();
@@ -130,7 +127,7 @@ public class testCasesAdvanced {
         }
     }
 
-    @Test
+    @Test(timeout = 2000)
     public void test_C_AddWord_Intermediate() {
         test_B_AddWord_Simple();
         // Note: This works in conjunction with test_B_AddWord_Simple(). If you are failing that, you will also fail this.
@@ -155,7 +152,7 @@ public class testCasesAdvanced {
         assertEquals("Ensure that you correctly update the isEnd flag after a word that is a prefix of another word was added!", true, traversalNode.equal.equal.isEnd);
     }
 
-    @Test
+    @Test(timeout = 2000)
     public void test_D_AddWord_Expert() {
         // You can modify this test case yourself if you are on the client-server pairing.
         // It will always return the correct solution trie in the variable solutionWP.
@@ -198,7 +195,7 @@ public class testCasesAdvanced {
         }
     }
 
-    @Test
+    @Test(timeout = 2000)
     public void test_E_AddWord_God() {
         // You can modify this test case yourself if you are on the client-server pairing.
         // It will always return the correct solution trie in the variable solutionWP.
@@ -248,7 +245,7 @@ public class testCasesAdvanced {
         }
     }
 
-    @Test
+    @Test(timeout = 2000)
     public void test_Y_SearchWord() {
         test_B_AddWord_Simple();
         test_C_AddWord_Intermediate();
@@ -268,7 +265,7 @@ public class testCasesAdvanced {
         assertEquals("Ensure that 'false' is returned if the word does NOT exist in the tree! (6)", false, wordProcessor.wordSearch("Shoelace"));
     }
 
-    @Test
+    @Test(timeout = 2000)
     public void test_Z_autoCompleteOptions() {
         test_B_AddWord_Simple();
         test_C_AddWord_Intermediate();
@@ -308,7 +305,7 @@ public class testCasesAdvanced {
         assertEquals("Ensure that the number of autocomplete suggestions is correct when the prefix exists in the tree already! (4)", 0, wordProcessor.autoCompleteOptions("Jeff").size());
     }
 
-    @Test
+    @Test(timeout = 480000) // 8 minute timeout
     public void test_Z_autoCompleteOptions_God() {
         String[] wordsToAdd = new String[] {"a", "B", "c", "D", "ABCDE", "ABC", "ABCDFE", "ABCFDOI", "AOHGRSOG", "VSJVIS", "AbcDefGhe", "ABCaka", "ABELINCOLN", "ABRSRG", "ABCDFSDF", "ABfsgf",
                 "JAY", "JEFF", "JOHN", "JOE", "Jeremy", "Jeremiah", "Mongo", "Mango", "mousepad", "monitor", "tab", "ABCKEN", "ABKen", "ABCODP", "OFEAPn", "LEAON", "XRGS",
@@ -328,6 +325,17 @@ public class testCasesAdvanced {
             if (solutionWP == null) {
                 fail("Please update to the latest version of test cases and test client on the Piazza post!");
             }
+
+
+
+
+            //
+            // NOTE: THIS WILL TAKE A VERY LONG TIME. THE SERVER IS NOT FAST. IT WILL DEPEND ON HOW MANY STUDENTS
+            // ARE USING THE SERVER AT ONCE. WITH ONLY ONE STUDENT TRYING, IT TAKES 1.5 MINUTES. IF YOU WANT THIS TO BE FASTER,
+            // TRY WITH A SMALLER LIST BY SHORTENING wordsToAdd.
+            //
+            //
+
 
             for (int i = 0; i < wordsToAdd.length; i++) { // for each word in the array
                 for (int j = 0; j < wordsToAdd[i].length(); j++) { // for each prefix of that word
