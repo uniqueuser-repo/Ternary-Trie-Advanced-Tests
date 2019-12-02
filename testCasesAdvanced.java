@@ -29,7 +29,7 @@ import static org.junit.Assert.assertTrue;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class testCasesAdvanced {
     private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    public static final int VersionID = 2550;
+    public static final int VersionID = 2600;
 
     WordProcessor wordProcessor = new WordProcessor();
 
@@ -166,7 +166,7 @@ public class testCasesAdvanced {
 
         wordProcessor.addAllWords(wordsToAdd);
         try {
-            WordProcessor solutionWP = testcasesClient.headlessClient(wordsToAdd);
+            WordProcessor solutionWP = testcasesClient.headlessClient(wordsToAdd, "addword");
             if (solutionWP == null) {
                 fail("Please update to the latest version of test cases and test client on the Piazza post!");
             }
@@ -216,7 +216,7 @@ public class testCasesAdvanced {
 
         wordProcessor.addAllWords(wordsToAdd);
         try {
-            WordProcessor solutionWP = testcasesClient.headlessClient(wordsToAdd);
+            WordProcessor solutionWP = testcasesClient.headlessClient(wordsToAdd, "addword");
             if (solutionWP == null) {
                 fail("Please update to the latest version of test cases and test client on the Piazza post!");
             }
@@ -323,7 +323,7 @@ public class testCasesAdvanced {
         wordProcessor.addAllWords(wordsToAdd);
         try {
             //Note: If you're failing AddWord, you're probably going to have problems here.
-            WordProcessor solutionWP = testcasesClient.headlessClient(wordsToAdd);
+            WordProcessor solutionWP = testcasesClient.headlessClient(wordsToAdd, "autocomplete");
 
             if (solutionWP == null) {
                 fail("Please update to the latest version of test cases and test client on the Piazza post!");
@@ -331,8 +331,8 @@ public class testCasesAdvanced {
 
             for (int i = 0; i < wordsToAdd.length; i++) { // for each word in the array
                 for (int j = 0; j < wordsToAdd[i].length(); j++) { // for each prefix of that word
-                    String prefixString = wordsToAdd[i].substring(0, j);
-                    List<String> solutionAutoCompleteList = solutionWP.autoCompleteOptions(prefixString);
+                    String prefixString = wordsToAdd[i].substring(0, j + 1);
+                    List<String> solutionAutoCompleteList = testcasesClient.retrieveList(prefixString);
                     List<String> localAutoCompleteList = wordProcessor.autoCompleteOptions(prefixString);
                     HashSet<String> localAutoCompleteHashSet = new HashSet<String>(localAutoCompleteList);
                     assertEquals("Ensure that the size of your autoCompleteOptions List is correct!", solutionAutoCompleteList.size(), localAutoCompleteList.size());
@@ -348,7 +348,7 @@ public class testCasesAdvanced {
             int lenRandomString = 6;                // modify this to test varying lengths of random strings.
             for (int i = 0; i < numRandomStringAutoCompletes; i++) {
                 String randomString = randomAlphaNumeric(lenRandomString);
-                List<String> solutionAutoCompleteList = solutionWP.autoCompleteOptions(randomString);
+                List<String> solutionAutoCompleteList = testcasesClient.retrieveList(randomString);
                 List<String> localAutoCompleteList = wordProcessor.autoCompleteOptions(randomString);
                 HashSet<String> localAutoCompleteHashSet = new HashSet<String>(localAutoCompleteList);
                 assertEquals("Ensure that the size of your autoCompleteOptions List is correct given random String " + randomString, solutionAutoCompleteList.size(), localAutoCompleteList.size());
@@ -358,11 +358,10 @@ public class testCasesAdvanced {
                 }
             }
 
-
-
+            testcasesClient.retrieveList(null); // DO NOT REMOVE THIS LINE!
 
         } catch (IOException ioe) {
-            fail("An IOException occurred! Please contact me. The server may be down. Most likely, you just need to update to the latest version.");
+            fail("Outer IOException in test_Z_autoCompleteOptions_God()! Most likely, all you need to do is update.");
         }
     }
 

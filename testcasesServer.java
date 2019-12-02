@@ -27,8 +27,8 @@ import java.time.*;
  *
  */
 public class testcasesServer {
-    public static final int ClientVersionID = 130;
-    public static final int TestCasesVersionID = 2550;
+    public static final int ClientVersionID = 150;
+    public static final int TestCasesVersionID = 2600;
     public static HashMap<Socket, String> clientIDs = new HashMap<>();
     public static HashSet<String> uniqueClientIDs = new HashSet<>();
 
@@ -89,23 +89,27 @@ class ClientHandler extends Thread {
             LocalDateTime timeObject = LocalDateTime.now();
             ObjectOutputStream oos = new ObjectOutputStream(client.getOutputStream());
             ObjectInputStream ois = new ObjectInputStream(client.getInputStream());
+            String clientType;
 
-            int clientMode = ois.read();
+
             int clientVersion = ois.read();
             Integer testcasesVersion = (Integer)ois.readObject();
-            int testcasesVersionint = Integer.parseInt(testcasesVersion.toString());
 
             if (clientVersion != testcasesServer.ClientVersionID || testcasesVersion != testcasesServer.TestCasesVersionID) {
                 oos.writeObject("You have failed the version check. Please update to the latest version on the Piazza post. @1120\n Latest version of test cases: "
-                                + testcasesServer.TestCasesVersionID + "\n Latest version of Client: " + testcasesServer.ClientVersionID + "\n");
+                        + testcasesServer.TestCasesVersionID + "\n Latest version of Client: " + testcasesServer.ClientVersionID + "\n");
                 oos.flush();
+                timeObject = LocalDateTime.now();
                 System.out.println(timeObject + ": Client ID: " + testcasesServer.clientIDs.get(client) + " has failed the version check. Closing.");
                 client.close();
                 return;
             } else {
                 oos.writeObject("Passed!");
                 oos.flush();
+                timeObject = LocalDateTime.now();
                 System.out.print(timeObject + ": Client ID: " + testcasesServer.clientIDs.get(client) + " has passed the version check. Running in mode ");
+                clientType = (String)ois.readObject();
+                int clientMode = ois.read();
                 if (clientMode == 0) {
                     System.out.println("manual.");
                 } else {
@@ -113,28 +117,55 @@ class ClientHandler extends Thread {
                 }
             }
 
+
             while (true) {
                 String readLine = (String)ois.readObject() ;
                 if (readLine == null || readLine.equals("exit")) {
-                    System.out.println(timeObject + ": Client ID: " + testcasesServer.clientIDs.get(client) + " is done adding words. Sending back WordProcessor...");
-                    Object sendingObject = localWP;
-                    oos.writeObject(sendingObject);
-                    System.out.println("Closing socket.");
-                    client.close();
-                    break;
+                    if (clientType.equals("addword")) { // if their query is of type addword
+                        timeObject = LocalDateTime.now();
+                        System.out.println(timeObject + ": Client ID: " + testcasesServer.clientIDs.get(client) + " is done adding words. Sending back WordProcessor...");
+                        Object sendingObject = localWP;
+                        oos.writeObject(sendingObject);
+                        System.out.println("Closing socket.");
+                        client.close();
+                        return;
+                    } else {                            // if their query is of type autocomplete
+                        Object sendingObject = localWP;
+                        oos.writeObject(sendingObject);
+                        break;
+                    }
                 }
                 if (wordCounter >= 170) {
+                    timeObject = LocalDateTime.now();
                     System.out.println(timeObject + ": Client ID: " + testcasesServer.clientIDs.get(client) + " is adding word " + readLine);
                     System.out.println(timeObject + ": Client ID: " + testcasesServer.clientIDs.get(client) + " stopped printing words to console. Exceeded 170 words.");
                     tripped = true;
                 }
                 if (tripped == false) {
+                    timeObject = LocalDateTime.now();
                     System.out.println(timeObject + ": Client ID: " + testcasesServer.clientIDs.get(client) + " is adding word " + readLine);
                 }
 
                 wordCounter++;
                 localWP.addWord(readLine);
 
+            }
+
+            // this portion ONLY runs if the user is in the autocomplete test case
+            timeObject = LocalDateTime.now();
+            System.out.println(timeObject + ": Client ID: " + testcasesServer.clientIDs.get(client) + " is now checking prefixes.");
+
+            while (true) {
+                String prefix = (String)ois.readObject();
+                if (prefix == null) {
+                    timeObject = LocalDateTime.now();
+                    System.out.println(timeObject + ": Client ID: " + testcasesServer.clientIDs.get(client) + " is done checking prefixes.");
+                    System.out.println("Closing socket.");
+                    client.close();
+                    return;
+                } else {
+                    oos.writeObject(localWP.autoCompleteOptions(prefix));
+                }
             }
         } catch (SocketException se) {
             LocalDateTime timeObject = LocalDateTime.now();

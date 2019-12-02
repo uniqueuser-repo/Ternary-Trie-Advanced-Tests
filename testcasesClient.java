@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -15,7 +16,7 @@ import java.util.Scanner;
  */
 
 public class testcasesClient {
-    public static final int VersionID = 130;
+    public static final int VersionID = 150;
 
     private static OutputStreamWriter osw;
     private static ObjectInputStream ois;
@@ -31,8 +32,9 @@ public class testcasesClient {
             oos = new ObjectOutputStream(clientSocket.getOutputStream());
             ois = new ObjectInputStream(clientSocket.getInputStream());
 
-            sendMode(0);
             String versionValidator = validateVersion();
+            sendType("addword");
+            sendMode(0);
             if (versionValidator == null) {
                 System.out.println("An error occurred.");
                 return;
@@ -85,15 +87,16 @@ public class testcasesClient {
     // cases (specifically Test_D_AddWord_Expert) to help you narrow down
     // precisely where you first fail the test case.
 
-    public static WordProcessor headlessClient(String[] wordsToAdd) throws IOException{
+    public static WordProcessor headlessClient(String[] wordsToAdd, String type) throws IOException{
         try {
-            Socket clientSocket = new Socket("167.172.238.22", 31002);
+            Socket clientSocket = new Socket(InetAddress.getLocalHost(), 31002);
             osw = new OutputStreamWriter(clientSocket.getOutputStream());
             oos = new ObjectOutputStream(clientSocket.getOutputStream());
             ois = new ObjectInputStream(clientSocket.getInputStream());
 
-            sendMode(1);
             String versionValidator = validateVersion();
+            sendType(type);
+            sendMode(1);
             if (versionValidator == null) {
                 System.out.println("An error occurred.");
                 return null;
@@ -129,7 +132,7 @@ public class testcasesClient {
                 oos.flush();
 
                 int testcasesVersion = testCasesAdvanced.VersionID;
-                oos.writeObject(new Integer(testCasesAdvanced.VersionID));
+                oos.writeObject(testcasesVersion);
                 oos.flush();
 
                 String checkValidVersion = (String)ois.readObject();
@@ -149,10 +152,35 @@ public class testcasesClient {
         return null;
     }
 
-    public static void sendMode(int mode) throws IOException {
+    public static void sendType(String type) throws IOException{
+        if (oos != null && ois != null) {
+            oos.writeObject(type);
+            oos.flush();
+        }
+    }
+
+    public static void sendMode(int mode) throws IOException { // sends whether the user is in automatic or manual mode
         if (oos != null && ois != null) {
             oos.write(mode);
             oos.flush();
         }
+    }
+
+    public static List<String> retrieveList(String prefix) throws IOException {
+        try {
+            if (oos != null && ois != null) {
+                oos.writeObject(prefix);
+                oos.flush();
+                try {
+                    return (List<String>)ois.readObject();
+                } catch (EOFException eof) {
+                    return null;
+                }
+            }
+        } catch (ClassNotFoundException cnfe) {
+            System.out.println("CNFE in retrieveList!");
+            cnfe.printStackTrace();
+        }
+        return null;
     }
 }
