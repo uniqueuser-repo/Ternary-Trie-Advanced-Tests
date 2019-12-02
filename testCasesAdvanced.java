@@ -29,7 +29,7 @@ import static org.junit.Assert.assertTrue;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class testCasesAdvanced {
     private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    public static final int VersionID = 2600;
+    public static final int VersionID = 2605;
 
     WordProcessor wordProcessor = new WordProcessor();
 
@@ -230,7 +230,7 @@ public class testCasesAdvanced {
 
             if (firstFail != null) {
                 if (firstFail[0] != null && firstFail[1] != null) {
-                    assertEquals("Ensure that you are correctly adding nodes!", firstFail[1].c, firstFail[0].c);
+                    assertEquals("Ensure that you are correctly adding nodes!", "" + firstFail[1].c, "" + firstFail[0].c);
                     assertEquals("Ensure that the flags are correctly set!", firstFail[1].isEnd, firstFail[0].isEnd);
                 } else if (firstFail[0] != null && firstFail[1] == null) {
                     fail("Ensure that you are correctly adding nodes! Your tree was non-null in a position that the solution tree had null!");
