@@ -90,7 +90,7 @@ public class testCasesAdvanced {
     }
 
     @Rule
-    public Timeout globalTimeout = new Timeout(2, TimeUnit.SECONDS);
+    public Timeout globalTimeout = new Timeout(30, TimeUnit.SECONDS);
 
     @Test
     public void Test_A_clear() {
