@@ -157,7 +157,6 @@ class ClientHandler extends Thread {
 
             while (true) {
                 String prefix = (String)ois.readObject();
-                System.out.println("Prefix: " + prefix);
                 if (prefix == null) {
                     timeObject = LocalDateTime.now();
                     System.out.println(timeObject + ": Client ID: " + testcasesServer.clientIDs.get(client) + " is done checking prefixes.");
