@@ -167,6 +167,10 @@ public class testcasesClient {
     }
 
     public static List<String> retrieveList(String prefix) throws IOException {
+        // TODO: Overload this method into one that takes no arguments.
+        // TODO: Instead of sendine each prefix of the known wordsToAdd over sockets,
+        // TODO: and retrieving the corresponding list, Compute that serverside and send an array of lists
+        // TODO: to minimize the amount of networking work.
         try {
             if (oos != null && ois != null) {
                 oos.writeObject(prefix);
