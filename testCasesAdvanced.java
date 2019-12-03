@@ -305,6 +305,14 @@ public class testCasesAdvanced {
 
     @Test(timeout = 20000) // 20 second timeout
     public void test_Z_autoCompleteOptions_God() {
+
+        //
+        //
+        // NOTE: THIS WILL TAKE ABOUT 10 SECONDS. THE SERVER IS PRETTY SLOW.
+        //
+        //
+        //
+
         String[] wordsToAdd = new String[] {"a", "B", "c", "D", "ABCDE", "ABC", "ABCDFE", "ABCFDOI", "AOHGRSOG", "VSJVIS", "AbcDefGhe", "ABCaka", "ABELINCOLN", "ABRSRG", "ABCDFSDF", "ABfsgf",
                 "JAY", "JEFF", "JOHN", "JOE", "Jeremy", "Jeremiah", "Mongo", "Mango", "mousepad", "monitor", "tab", "ABCKEN", "ABKen", "ABCODP", "OFEAPn", "LEAON", "XRGS",
                 "Word", "box", "Navigation", "Emphasis", "Intense", "Pen", "Sharpie", "Dollar", "Pill", "Vitamin", "Centrum", "Napkin", "Nappie", "Bottle", "Bot", "Wire",
