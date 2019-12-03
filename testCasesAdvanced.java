@@ -29,7 +29,7 @@ import static org.junit.Assert.assertTrue;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class testCasesAdvanced {
     private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    public static final int VersionID = 2605;
+    public static final int VersionID = 2610;
 
     WordProcessor wordProcessor = new WordProcessor();
 
@@ -352,12 +352,27 @@ public class testCasesAdvanced {
 
             int numRandomStringAutoCompletes = 100; // modify this to test more random string auto completes.
             int lenRandomString = 6;                // modify this to test varying lengths of random strings.
-            for (int i = 0; i < numRandomStringAutoCompletes; i++) {
+            for (int i = 0; i < numRandomStringAutoCompletes; i++) { // checks autocomplete with random Strings
                 String randomString = randomAlphaNumeric(lenRandomString);
                 List<String> solutionAutoCompleteList = testcasesClient.retrieveList(randomString);
                 List<String> localAutoCompleteList = wordProcessor.autoCompleteOptions(randomString);
                 HashSet<String> localAutoCompleteHashSet = new HashSet<String>(localAutoCompleteList);
                 assertEquals("Ensure that the size of your autoCompleteOptions List is correct given random String " + randomString, solutionAutoCompleteList.size(), localAutoCompleteList.size());
+                for (int k = 0; k < solutionAutoCompleteList.size(); k++) { // for each word in the solution auto complete list
+                    assertTrue("Ensure that every word in the solution auto completion list exists in the local auto completion list!",
+                            localAutoCompleteHashSet.contains(solutionAutoCompleteList.get(k)));
+                }
+            }
+
+            for (int i = 0; i < 5; i++) { // checks autocomplete with extensions of words that already exist
+                if (i >= wordsToAdd.length) { // only run 5 times maximum; ensures no crash if wordsToAdd.length < 5
+                    break;
+                }
+                String extension = wordsToAdd[i] + randomAlphaNumeric(lenRandomString);
+                List<String> solutionAutoCompleteList = testcasesClient.retrieveList(extension);
+                List<String> localAutoCompleteList = wordProcessor.autoCompleteOptions(extension);
+                HashSet<String> localAutoCompleteHashSet = new HashSet<String>(localAutoCompleteList);
+                assertEquals("Ensure that the size of your autoCompleteOptions List is correct given random String " + extension, solutionAutoCompleteList.size(), localAutoCompleteList.size());
                 for (int k = 0; k < solutionAutoCompleteList.size(); k++) { // for each word in the solution auto complete list
                     assertTrue("Ensure that every word in the solution auto completion list exists in the local auto completion list!",
                             localAutoCompleteHashSet.contains(solutionAutoCompleteList.get(k)));

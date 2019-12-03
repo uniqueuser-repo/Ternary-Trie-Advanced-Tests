@@ -28,7 +28,7 @@ import java.time.*;
  */
 public class testcasesServer {
     public static final int ClientVersionID = 150;
-    public static final int TestCasesVersionID = 2605;
+    public static final int TestCasesVersionID = 2610;
     public static HashMap<Socket, String> clientIDs = new HashMap<>();
     public static HashSet<String> uniqueClientIDs = new HashSet<>();
 
