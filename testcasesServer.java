@@ -170,6 +170,9 @@ class ClientHandler extends Thread {
                     return;
                 } else if (prefix.equals("uniqueIdentifier-allprefixes-5203592350")) { // if the passed prefix is the unique identifier for the set of all combinations of prefixes
                     HashMap<String, List<String>> word_autocomplete_pair = new HashMap<>();
+                    //TODO: Multithread this so that it's faster. Currently takes 150ms locally, 10seconds on server.
+                    //TODO: Problem: Once server reaches this point, CPU usage drastically drops, presumably because
+                    //TODO: It's working on only one thread and that thread only goes so fast.
                     for (int i = 0; i < addedWords.size(); i++) { // for each word in the array
                         for (int j = 0; j < addedWords.get(i).length(); j++) { // for each prefix of that word
                             String prefixString = addedWords.get(i).substring(0, j + 1);
