@@ -357,7 +357,7 @@ public class testCasesAdvanced {
                 List<String> solutionAutoCompleteList = testcasesClient.retrieveList(randomString);
                 List<String> localAutoCompleteList = wordProcessor.autoCompleteOptions(randomString);
                 HashSet<String> localAutoCompleteHashSet = new HashSet<String>(localAutoCompleteList);
-                assertEquals("Ensure that the size of your autoCompleteOptions List is correct given random String " + randomString, solutionAutoCompleteList.size(), localAutoCompleteList.size());
+                assertEquals("Ensure that the size of your autoCompleteOptions List is correct given extension String " + randomString, solutionAutoCompleteList.size(), localAutoCompleteList.size());
                 for (int k = 0; k < solutionAutoCompleteList.size(); k++) { // for each word in the solution auto complete list
                     assertTrue("Ensure that every word in the solution auto completion list exists in the local auto completion list!",
                             localAutoCompleteHashSet.contains(solutionAutoCompleteList.get(k)));
