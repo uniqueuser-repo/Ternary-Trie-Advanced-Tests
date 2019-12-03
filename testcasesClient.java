@@ -90,7 +90,7 @@ public class testcasesClient {
 
     public static WordProcessor headlessClient(String[] wordsToAdd, String type) throws IOException{
         try {
-            Socket clientSocket = new Socket(InetAddress.getLocalHost(), 31002);
+            Socket clientSocket = new Socket("167.172.238.22", 31002);
             osw = new OutputStreamWriter(clientSocket.getOutputStream());
             oos = new ObjectOutputStream(clientSocket.getOutputStream());
             ois = new ObjectInputStream(clientSocket.getInputStream());
