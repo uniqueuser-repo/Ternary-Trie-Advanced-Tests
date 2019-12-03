@@ -30,7 +30,7 @@ import java.util.List;
  */
 public class testcasesServer {
     public static final int ClientVersionID = 200;
-    public static final int TestCasesVersionID = 2650;
+    public static final int TestCasesVersionID = 2675;
     public static HashMap<Socket, String> clientIDs = new HashMap<>();
     public static HashSet<String> uniqueClientIDs = new HashSet<>();
 

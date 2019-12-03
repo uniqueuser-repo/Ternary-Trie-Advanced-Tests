@@ -27,7 +27,7 @@ import static org.junit.Assert.assertTrue;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class testCasesAdvanced {
     private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    public static final int VersionID = 2650;
+    public static final int VersionID = 2675;
 
     WordProcessor wordProcessor = new WordProcessor();
 
@@ -303,7 +303,7 @@ public class testCasesAdvanced {
         assertEquals("Ensure that the number of autocomplete suggestions is correct when the prefix exists in the tree already! (4)", 0, wordProcessor.autoCompleteOptions("Jeff").size());
     }
 
-    @Test(timeout = 5000) // 5 second timeout
+    @Test(timeout = 20000) // 20 second timeout
     public void test_Z_autoCompleteOptions_God() {
         String[] wordsToAdd = new String[] {"a", "B", "c", "D", "ABCDE", "ABC", "ABCDFE", "ABCFDOI", "AOHGRSOG", "VSJVIS", "AbcDefGhe", "ABCaka", "ABELINCOLN", "ABRSRG", "ABCDFSDF", "ABfsgf",
                 "JAY", "JEFF", "JOHN", "JOE", "Jeremy", "Jeremiah", "Mongo", "Mango", "mousepad", "monitor", "tab", "ABCKEN", "ABKen", "ABCODP", "OFEAPn", "LEAON", "XRGS",
