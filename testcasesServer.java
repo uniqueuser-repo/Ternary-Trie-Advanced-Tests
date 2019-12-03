@@ -3,9 +3,11 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.time.*;
+import java.util.List;
 
 /**
  *  The server for the test cases of CS251 Fall'19 Project 5. It accepts input from clients (students)
@@ -27,8 +29,8 @@ import java.time.*;
  *
  */
 public class testcasesServer {
-    public static final int ClientVersionID = 150;
-    public static final int TestCasesVersionID = 2610;
+    public static final int ClientVersionID = 200;
+    public static final int TestCasesVersionID = 2650;
     public static HashMap<Socket, String> clientIDs = new HashMap<>();
     public static HashSet<String> uniqueClientIDs = new HashSet<>();
 
@@ -117,6 +119,8 @@ class ClientHandler extends Thread {
                 }
             }
 
+            ArrayList<String> addedWords = new ArrayList<>();
+
 
             while (true) {
                 String readLine = (String)ois.readObject() ;
@@ -148,6 +152,7 @@ class ClientHandler extends Thread {
 
                 wordCounter++;
                 localWP.addWord(readLine);
+                addedWords.add(readLine);
 
             }
 
@@ -163,9 +168,21 @@ class ClientHandler extends Thread {
                     System.out.println("Closing socket.");
                     client.close();
                     return;
+                } else if (prefix.equals("uniqueIdentifier-allprefixes-5203592350")) { // if the passed prefix is the unique identifier for the set of all combinations of prefixes
+                    HashMap<String, List<String>> word_autocomplete_pair = new HashMap<>();
+                    for (int i = 0; i < addedWords.size(); i++) { // for each word in the array
+                        for (int j = 0; j < addedWords.get(i).length(); j++) { // for each prefix of that word
+                            String prefixString = addedWords.get(i).substring(0, j + 1);
+                            word_autocomplete_pair.put(prefixString, localWP.autoCompleteOptions(prefixString));
+                        }
+                    }
+                    oos.writeObject(word_autocomplete_pair);
+                    oos.flush();
                 } else {
                     oos.writeObject(localWP.autoCompleteOptions(prefix));
+                    oos.flush();
                 }
+
             }
         } catch (SocketException se) {
             LocalDateTime timeObject = LocalDateTime.now();

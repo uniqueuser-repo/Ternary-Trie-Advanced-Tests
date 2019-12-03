@@ -3,9 +3,7 @@ import org.junit.rules.Timeout;
 import org.junit.runners.MethodSorters;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static junit.framework.TestCase.fail;
@@ -29,7 +27,7 @@ import static org.junit.Assert.assertTrue;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class testCasesAdvanced {
     private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    public static final int VersionID = 2610;
+    public static final int VersionID = 2650;
 
     WordProcessor wordProcessor = new WordProcessor();
 
@@ -305,7 +303,7 @@ public class testCasesAdvanced {
         assertEquals("Ensure that the number of autocomplete suggestions is correct when the prefix exists in the tree already! (4)", 0, wordProcessor.autoCompleteOptions("Jeff").size());
     }
 
-    @Test(timeout = 480000) // 8 minute timeout
+    @Test(timeout = 5000) // 5 second timeout
     public void test_Z_autoCompleteOptions_God() {
         String[] wordsToAdd = new String[] {"a", "B", "c", "D", "ABCDE", "ABC", "ABCDFE", "ABCFDOI", "AOHGRSOG", "VSJVIS", "AbcDefGhe", "ABCaka", "ABELINCOLN", "ABRSRG", "ABCDFSDF", "ABfsgf",
                 "JAY", "JEFF", "JOHN", "JOE", "Jeremy", "Jeremiah", "Mongo", "Mango", "mousepad", "monitor", "tab", "ABCKEN", "ABKen", "ABCODP", "OFEAPn", "LEAON", "XRGS",
@@ -326,28 +324,40 @@ public class testCasesAdvanced {
                 fail("Please update to the latest version of test cases and test client on the Piazza post!");
             }
 
-
-
-
-            //
-            // NOTE: THIS WILL TAKE A VERY LONG TIME. NETWORKING IS NOT FAST. IT WILL DEPEND ON HOW MANY STUDENTS
-            // ARE USING THE SERVER AT ONCE. EXPECT IT TO TAKE AROUND 1.5 MINUTES.
-            //
-
+            HashMap<String, List<String>> solution_word_autocomplete_pairs = testcasesClient.retrieveList();
+            HashMap<String, List<String>> local_word_autocomplete_pairs = new HashMap<>();
 
             for (int i = 0; i < wordsToAdd.length; i++) { // for each word in the array
                 for (int j = 0; j < wordsToAdd[i].length(); j++) { // for each prefix of that word
                     String prefixString = wordsToAdd[i].substring(0, j + 1);
-                    List<String> solutionAutoCompleteList = testcasesClient.retrieveList(prefixString);
-                    List<String> localAutoCompleteList = wordProcessor.autoCompleteOptions(prefixString);
-                    HashSet<String> localAutoCompleteHashSet = new HashSet<String>(localAutoCompleteList);
-                    assertEquals("Ensure that the size of your autoCompleteOptions List is correct!", solutionAutoCompleteList.size(), localAutoCompleteList.size());
-                    for (int k = 0; k < solutionAutoCompleteList.size(); k++) { // for each word in the solution auto complete list
-                        assertTrue("Ensure that every word in the solution auto completion list exists in the local auto completion list!",
-                                    localAutoCompleteHashSet.contains(solutionAutoCompleteList.get(k)));
-                    }
-
+                    local_word_autocomplete_pairs.put(prefixString, wordProcessor.autoCompleteOptions(prefixString)); // populate hashmap with key: prefix - value: autocomplete list pairs
                 }
+            }
+
+            Iterator solutionIterator = solution_word_autocomplete_pairs.entrySet().iterator();
+            Iterator localIterator = local_word_autocomplete_pairs.entrySet().iterator();
+
+            while (solutionIterator.hasNext() && localIterator.hasNext()) {
+                Map.Entry solutionPair = (Map.Entry)solutionIterator.next();
+                Map.Entry localPair = (Map.Entry)localIterator.next();
+                List<String> solutionAutoCompleteList = (List<String>)solutionPair.getValue();
+                List<String> localAutoCompleteList = (List<String>)localPair.getValue();
+                HashSet<String> localAutoCompleteHashSet = new HashSet<String>(localAutoCompleteList);
+                assertTrue("Peculiar error involving HashMap indices. Please contact me.", ((String)solutionPair.getKey()).equals((String)localPair.getKey()));
+                assertEquals("Ensure that the size of your autoCompleteOptions List is correct given prefix " + solutionPair.getKey(), solutionAutoCompleteList.size(), localAutoCompleteList.size());
+                for (int k = 0; k < solutionAutoCompleteList.size(); k++) { // for each word in the solution auto complete list
+                    assertTrue("Ensure that every word in the solution auto completion list exists in the local auto completion list! " +
+                                    "Word missing from local list: " + solutionAutoCompleteList.get(k) + "\nFor prefix: " + solutionPair.getKey(),
+                            localAutoCompleteHashSet.contains(solutionAutoCompleteList.get(k)));
+                }
+            }
+
+            if (solutionIterator.hasNext() && !localIterator.hasNext()) {
+                Map.Entry solutionNext = (Map.Entry)solutionIterator.next();
+                fail("The solution has a prefix-autocomplete pair that you don't!\n Prefix: " + solutionNext.getKey() + "\n Autocomplete list: " + ((List<String>)solutionNext.getValue()).toString() + "\n");
+            } else if (!solutionIterator.hasNext() && localIterator.hasNext()) {
+                Map.Entry localNext = (Map.Entry)localIterator.next();
+                fail("You have a prefix-autocomplete pair that the solution doesn't!\n Prefix: " + localNext.getKey() + "\n Autocomplete list: " + ((List<String>)localNext.getValue()).toString() + "\n");
             }
 
             int numRandomStringAutoCompletes = 100; // modify this to test more random string auto completes.
@@ -359,7 +369,8 @@ public class testCasesAdvanced {
                 HashSet<String> localAutoCompleteHashSet = new HashSet<String>(localAutoCompleteList);
                 assertEquals("Ensure that the size of your autoCompleteOptions List is correct given extension String " + randomString, solutionAutoCompleteList.size(), localAutoCompleteList.size());
                 for (int k = 0; k < solutionAutoCompleteList.size(); k++) { // for each word in the solution auto complete list
-                    assertTrue("Ensure that every word in the solution auto completion list exists in the local auto completion list!",
+                    assertTrue("Ensure that every word in the solution auto completion list exists in the local auto completion list! " +
+                                    "Word missing from local list: " + solutionAutoCompleteList.get(k) + "\nFor prefix: " + randomString,
                             localAutoCompleteHashSet.contains(solutionAutoCompleteList.get(k)));
                 }
             }
@@ -374,7 +385,8 @@ public class testCasesAdvanced {
                 HashSet<String> localAutoCompleteHashSet = new HashSet<String>(localAutoCompleteList);
                 assertEquals("Ensure that the size of your autoCompleteOptions List is correct given random String " + extension, solutionAutoCompleteList.size(), localAutoCompleteList.size());
                 for (int k = 0; k < solutionAutoCompleteList.size(); k++) { // for each word in the solution auto complete list
-                    assertTrue("Ensure that every word in the solution auto completion list exists in the local auto completion list!",
+                    assertTrue("Ensure that every word in the solution auto completion list exists in the local auto completion list! " +
+                                    "Word missing from local list: " + solutionAutoCompleteList.get(k) + "\nFor prefix: " + extension,
                             localAutoCompleteHashSet.contains(solutionAutoCompleteList.get(k)));
                 }
             }

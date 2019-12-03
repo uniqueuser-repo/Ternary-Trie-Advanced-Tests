@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,7 +17,7 @@ import java.util.Scanner;
  */
 
 public class testcasesClient {
-    public static final int VersionID = 150;
+    public static final int VersionID = 200;
 
     private static OutputStreamWriter osw;
     private static ObjectInputStream ois;
@@ -89,7 +90,7 @@ public class testcasesClient {
 
     public static WordProcessor headlessClient(String[] wordsToAdd, String type) throws IOException{
         try {
-            Socket clientSocket = new Socket("167.172.238.22", 31002);
+            Socket clientSocket = new Socket(InetAddress.getLocalHost(), 31002);
             osw = new OutputStreamWriter(clientSocket.getOutputStream());
             oos = new ObjectOutputStream(clientSocket.getOutputStream());
             ois = new ObjectInputStream(clientSocket.getInputStream());
@@ -166,9 +167,27 @@ public class testcasesClient {
         }
     }
 
+    public static HashMap<String, List<String>> retrieveList() throws IOException {
+        try {
+            if (oos != null && ois != null) {
+                oos.writeObject("uniqueIdentifier-allprefixes-5203592350");
+                oos.flush();
+                try {
+                    return (HashMap<String, List<String>>)ois.readObject();
+                } catch (EOFException eof) {
+                    return null;
+                }
+            }
+        } catch (ClassNotFoundException cnfe) {
+            System.out.println("CNFE in retrieveList!");
+            cnfe.printStackTrace();
+        }
+        return null;
+    }
+
     public static List<String> retrieveList(String prefix) throws IOException {
         // TODO: Overload this method into one that takes no arguments.
-        // TODO: Instead of sendine each prefix of the known wordsToAdd over sockets,
+        // TODO: Instead of sending each prefix of the known wordsToAdd over sockets,
         // TODO: and retrieving the corresponding list, Compute that serverside and send an array of lists
         // TODO: to minimize the amount of networking work.
         try {
