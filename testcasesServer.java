@@ -1,8 +1,5 @@
 import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.InetAddress;
-import java.net.SocketException;
+import java.net.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -188,6 +185,10 @@ class ClientHandler extends Thread {
                 }
 
             }
+        } catch (SocketTimeoutException ste) {
+            LocalDateTime timeObject = LocalDateTime.now();
+            System.out.println(timeObject + ": Client ID: " + testcasesServer.clientIDs.get(client) + " timed out.");
+            testcasesServer.clientIDs.remove(client);
         } catch (SocketException se) {
             LocalDateTime timeObject = LocalDateTime.now();
             System.out.println(timeObject + ": Client ID: " + testcasesServer.clientIDs.get(client) + " abruptly closed connection.");
