@@ -59,6 +59,7 @@ public class testcasesServer {
 
             while (true) {
                 Socket client = serverSocket.accept();
+                client.setSoTimeout(600*1000); // set a socket timeout of 600 seconds, aka 600 * 1000 milliseconds.
                 LocalDateTime timeObject = LocalDateTime.now();
                 System.out.println(timeObject + ": A client has connected! Client ID: " + client.getRemoteSocketAddress().toString());
                 clientIDs.put(client, client.getRemoteSocketAddress().toString());
@@ -91,7 +92,7 @@ class ClientHandler extends Thread {
             LocalDateTime timeObject = LocalDateTime.now();
             ObjectOutputStream oos = new ObjectOutputStream(client.getOutputStream());
             ObjectInputStream ois = new ObjectInputStream(client.getInputStream());
-            String clientType;
+            String clientType = "";
 
 
             int clientVersion = ois.read();
@@ -189,7 +190,7 @@ class ClientHandler extends Thread {
             }
         } catch (SocketException se) {
             LocalDateTime timeObject = LocalDateTime.now();
-            System.out.println(timeObject + ": Client ID: " + testcasesServer.clientIDs.get(client) + " abruptly closed connection while server awaiting input.");
+            System.out.println(timeObject + ": Client ID: " + testcasesServer.clientIDs.get(client) + " abruptly closed connection.");
             testcasesServer.clientIDs.remove(client);
         } catch (IOException ioe) {
             LocalDateTime timeObject = LocalDateTime.now();
