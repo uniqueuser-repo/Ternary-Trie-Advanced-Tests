@@ -22,7 +22,7 @@ import static org.junit.Assert.assertEquals;
  */
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class testCases {
+public class TestCases {
 
     WordProcessor wordProcessor = new WordProcessor();
     int counter = 0;

@@ -1,5 +1,4 @@
 import java.io.*;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.Scanner;
  *
  */
 
-public class testcasesClient {
+public class TestCasesClient {
     public static final int VersionID = 200;
 
     private static OutputStreamWriter osw;
@@ -132,7 +131,7 @@ public class testcasesClient {
                 oos.write(VersionID);
                 oos.flush();
 
-                int testcasesVersion = testCasesAdvanced.VersionID;
+                int testcasesVersion = TestCasesAdvanced.VersionID;
                 oos.writeObject(testcasesVersion);
                 oos.flush();
 

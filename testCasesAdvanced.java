@@ -1,10 +1,8 @@
 import org.junit.*;
-import org.junit.rules.Timeout;
 import org.junit.runners.MethodSorters;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
@@ -13,7 +11,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Test cases for Fall'19 CS251 Project 5.
  *
- * Everything is the same as testCases.java with the exception that test_D is now
+ * Everything is the same as TestCases.java with the exception that test_D is now
  * much, much, much more rigorous and you can modify it however you'd like, and it will
  * still pass or fail appropriately. It's also easier to debug.
  *
@@ -25,7 +23,7 @@ import static org.junit.Assert.assertTrue;
  */
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class testCasesAdvanced {
+public class TestCasesAdvanced {
     private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     public static final int VersionID = 2675;
 
@@ -161,7 +159,7 @@ public class testCasesAdvanced {
 
         wordProcessor.addAllWords(wordsToAdd);
         try {
-            WordProcessor solutionWP = testcasesClient.headlessClient(wordsToAdd, "addword");
+            WordProcessor solutionWP = TestCasesClient.headlessClient(wordsToAdd, "addword");
             if (solutionWP == null) {
                 fail("Please update to the latest version of test cases and test client on the Piazza post!");
             }
@@ -211,7 +209,7 @@ public class testCasesAdvanced {
 
         wordProcessor.addAllWords(wordsToAdd);
         try {
-            WordProcessor solutionWP = testcasesClient.headlessClient(wordsToAdd, "addword");
+            WordProcessor solutionWP = TestCasesClient.headlessClient(wordsToAdd, "addword");
             if (solutionWP == null) {
                 fail("Please update to the latest version of test cases and test client on the Piazza post!");
             }
@@ -326,13 +324,13 @@ public class testCasesAdvanced {
         wordProcessor.addAllWords(wordsToAdd);
         try {
             //Note: If you're failing AddWord, you're probably going to have problems here.
-            WordProcessor solutionWP = testcasesClient.headlessClient(wordsToAdd, "autocomplete");
+            WordProcessor solutionWP = TestCasesClient.headlessClient(wordsToAdd, "autocomplete");
 
             if (solutionWP == null) {
                 fail("Please update to the latest version of test cases and test client on the Piazza post!");
             }
 
-            HashMap<String, List<String>> solution_word_autocomplete_pairs = testcasesClient.retrieveList();
+            HashMap<String, List<String>> solution_word_autocomplete_pairs = TestCasesClient.retrieveList();
             HashMap<String, List<String>> local_word_autocomplete_pairs = new HashMap<>();
 
             for (int i = 0; i < wordsToAdd.length; i++) { // for each word in the array
@@ -372,7 +370,7 @@ public class testCasesAdvanced {
             int lenRandomString = 6;                // modify this to test varying lengths of random strings.
             for (int i = 0; i < numRandomStringAutoCompletes; i++) { // checks autocomplete with random Strings
                 String randomString = randomAlphaNumeric(lenRandomString);
-                List<String> solutionAutoCompleteList = testcasesClient.retrieveList(randomString);
+                List<String> solutionAutoCompleteList = TestCasesClient.retrieveList(randomString);
                 List<String> localAutoCompleteList = wordProcessor.autoCompleteOptions(randomString);
                 HashSet<String> localAutoCompleteHashSet = new HashSet<String>(localAutoCompleteList);
                 assertEquals("Ensure that the size of your autoCompleteOptions List is correct given extension String " + randomString, solutionAutoCompleteList.size(), localAutoCompleteList.size());
@@ -388,7 +386,7 @@ public class testCasesAdvanced {
                     break;
                 }
                 String extension = wordsToAdd[i] + randomAlphaNumeric(lenRandomString);
-                List<String> solutionAutoCompleteList = testcasesClient.retrieveList(extension);
+                List<String> solutionAutoCompleteList = TestCasesClient.retrieveList(extension);
                 List<String> localAutoCompleteList = wordProcessor.autoCompleteOptions(extension);
                 HashSet<String> localAutoCompleteHashSet = new HashSet<String>(localAutoCompleteList);
                 assertEquals("Ensure that the size of your autoCompleteOptions List is correct given random String " + extension, solutionAutoCompleteList.size(), localAutoCompleteList.size());
@@ -399,7 +397,7 @@ public class testCasesAdvanced {
                 }
             }
 
-            testcasesClient.retrieveList(null); // DO NOT REMOVE THIS LINE!
+            TestCasesClient.retrieveList(null); // DO NOT REMOVE THIS LINE!
 
         } catch (IOException ioe) {
             fail("Outer IOException in test_Z_autoCompleteOptions_God()! Most likely, all you need to do is update.");
